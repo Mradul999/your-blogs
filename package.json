@@ -1,5 +1,21 @@
 {
   "dependencies": {
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "mongoose": "^8.5.0",
+    "nodemon": "^3.1.4",
     "react-router-dom": "^6.24.1"
-  }
+  },
+  "name": "yourblogs",
+  "version": "1.0.0",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "start": "node ./api/index.js",
+    "dev":"nodemon ./api/index.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": ""
 }
