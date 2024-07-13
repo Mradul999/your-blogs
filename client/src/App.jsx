@@ -10,6 +10,7 @@ import Header from "./Components/Header";
 
 import "./App.css";
 import OTPVerification from "./pages/OTPVerification";
+import Footer from "./Components/Footer";
 
 export default function App() {
   return (
@@ -28,6 +29,7 @@ export default function App() {
           element={<OTPVerification></OTPVerification>}
         ></Route>
       </Routes>
+      <Footer></Footer>
     </div>
   );
 }
