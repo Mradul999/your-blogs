@@ -3,7 +3,10 @@ import "../Components/bg.css";
 import { NavLink, useNavigate } from "react-router-dom";
 import { FaGoogle } from "react-icons/fa6";
 import axios from "axios";
+import { useDispatch } from "react-redux";
+import { signInStart,signInFailure,signInSuccess } from "../redux/slices/UserSlice";
 export default function Signin() {
+  const dispatch=useDispatch();
   const navigate = useNavigate();
   const [formData, setFormData] = useState({});
   const [errorMessage, setErrorMessage] = useState(null);
@@ -27,6 +30,7 @@ export default function Signin() {
         email: formData.email,
         password: formData.password,
       });
+      dispatch(signInSuccess(response.data));
       setLoading(false);
 
       if (response.status === 200) {
