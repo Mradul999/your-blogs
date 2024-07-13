@@ -7,7 +7,9 @@ import Dashboard from "./pages/Dashboard";
 import About from "./pages/About";
 import Projects from "./pages/Projects";
 import Header from "./Components/Header";
+
 import "./App.css";
+import OTPVerification from "./pages/OTPVerification";
 
 
 
@@ -25,6 +27,7 @@ export default function App() {
           <Route path="/dashboard" element={<Dashboard></Dashboard>}></Route>
           <Route path="/about" element={<About></About>}></Route>
           <Route path="/projects" element={<Projects></Projects>}></Route>
+          <Route path="/otpverification " element={<OTPVerification/>}></Route>
         </Routes>
       
     </div>
