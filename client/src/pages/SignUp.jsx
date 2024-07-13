@@ -8,7 +8,7 @@ import { useNavigate } from "react-router-dom";
 import "../Components/bg.css";
 
 export default function SignUp() {
-  const navigate=useNavigate();
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({});
   const [errorMessage, setErrorMessage] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -23,15 +23,24 @@ export default function SignUp() {
       return;
     }
     setErrorMessage(null);
-    
-
 
     try {
-
       //send mail with a otp to user at that email
-      
-
-      
+      setLoading(true);
+      const response = await fetch("api/auth/generateotp", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email: formData.email }),
+      });
+      if (response.status === 200) {
+        localStorage.setItem("email", formData.email);
+        localStorage.setItem("username", formData.username);
+        localStorage.setItem("password", formData.password);
+        setLoading(false);
+        navigate("/otpverification");
+      }
     } catch (error) {
       console.log(error);
     }
@@ -77,7 +86,7 @@ export default function SignUp() {
           </label>
           {errorMessage && <p className="text-red-600 ">*{errorMessage}</p>}
           <button className="bg-gradient-to-br hover:scale-105 transition-all from-purple-600 to-blue-500 rounded-lg py-3 text-[15px] font-medium hover:bg-gradient-to-bl">
-            {loading?( <span className="loader"></span>):"Sign up"} 
+            {loading ? <span className="loader"></span> : "Sign up"}
           </button>
           <button className="bg-red-600 rounded-lg py-3 hover:scale-105 transition-all hover:bg-red-700 text-[15px] font-medium flex items-center justify-center gap-2">
             <FaGoogle className="-mt-[0.2rem] bg-white text-2xl text-black p-1 rounded-full" />

@@ -1,8 +1,9 @@
 import User from "../Models/user.model.js";
 import bcryptjs from "bcryptjs";
 import otpGenerator from "otp-generator";
-
+import OTP from "../Models/otp.model.js";
 import { sendMail } from "../utils/sendMail.js";
+//signup functionality
 export const signup = async (req, res) => {
   const { username, email, password } = req.body;
   try {
@@ -44,18 +45,24 @@ export const signup = async (req, res) => {
     });
   }
 };
-
+//generating otp and sending to user mail
 export const GenerateOTP = async (req, res) => {
   //generate otp
   try {
-    const {email}=req.body;
+    const { email } = req.body;
     const otp = otpGenerator.generate(6, {
       upperCaseAlphabets: false,
-      lowerCaseAlphabets:false,
+      lowerCaseAlphabets: false,
       specialChars: false,
     });
 
     //save this otp in the db
+    const newOtp = new OTP({
+      email,
+      otp,
+    });
+    await newOtp.save();
+
     //send this otp to the user
     const mailResponse = await sendMail(email, otp);
     if (mailResponse.success) {
@@ -73,6 +80,44 @@ export const GenerateOTP = async (req, res) => {
     res.status.json({
       success: false,
       message: "Failed to generate OTP",
+    });
+  }
+};
+
+//verifying the otp
+export const VerifyOTP = async (req, res) => {
+  try {
+    const { otp, email } = req.body;
+    const otpDoc = await OTP.findOne({ email });
+    if (!otpDoc) {
+      return res.status(400).json({
+        success: false,
+        message: "OTP not found",
+      });
+    }
+
+    if (parseInt(otp)!==parseInt(otpDoc.otp)) {
+      return res.status(409).json({
+        success: false,
+        message: "Invalid OTP",
+      });
+    }
+
+    // if (otpDoc.createdAt < new Date(Date.now() - 2 * 60 * 1000)) {
+    //   return res.status(403).json({
+    //     success: false,
+    //     message: "otp expire please generate a new otp",
+    //   });
+    // }
+
+    res.status(200).json({
+      success: true,
+      message: "otp verified successfully",
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: "Internal server error",
     });
   }
 };
