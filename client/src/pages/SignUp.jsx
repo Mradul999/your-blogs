@@ -22,7 +22,11 @@ export default function SignUp() {
       setErrorMessage("Please fill all fields");
       return;
     }
+
+
     setErrorMessage(null);
+
+
 
     try {
       //send mail with a otp to user at that email
@@ -34,6 +38,13 @@ export default function SignUp() {
         },
         body: JSON.stringify({ email: formData.email }),
       });
+
+
+      if(response.status===400){
+        setLoading(false);
+        setErrorMessage("user already registered");
+        return;
+      }
       if (response.status === 200) {
         localStorage.setItem("email", formData.email);
         localStorage.setItem("username", formData.username);
@@ -81,7 +92,7 @@ export default function SignUp() {
               placeholder="****"
               className="py-2 rounded-lg text-[13px] pl-2 bg-slate-700 focus:outline-none focus:border-[0.2rem] focus:border-sky-400 "
               name="username"
-              type="text"
+              type="password"
             />
           </label>
           {errorMessage && <p className="text-red-600 ">*{errorMessage}</p>}
