@@ -3,6 +3,10 @@ import bcryptjs from "bcryptjs";
 import otpGenerator from "otp-generator";
 import OTP from "../Models/otp.model.js";
 import { sendMail } from "../utils/sendMail.js";
+import jwt from "jsonwebtoken";
+import dotenv from "dotenv";
+dotenv.config();
+
 //signup functionality
 export const signup = async (req, res) => {
   const { username, email, password } = req.body;
@@ -45,6 +49,7 @@ export const signup = async (req, res) => {
     });
   }
 };
+
 //generating otp and sending to user mail
 export const GenerateOTP = async (req, res) => {
   //generate otp
@@ -105,7 +110,7 @@ export const VerifyOTP = async (req, res) => {
       });
     }
 
-    if (parseInt(otp)!==parseInt(otpDoc.otp)) {
+    if (parseInt(otp) !== parseInt(otpDoc.otp)) {
       return res.status(409).json({
         success: false,
         message: "Invalid OTP",
@@ -131,36 +136,41 @@ export const VerifyOTP = async (req, res) => {
   }
 };
 
-export const signin=async(req,res)=>{
+//signin
+export const signin = async (req, res) => {
   try {
-
-    const {email,password}=req.body;
-    const user=await User.findOne({email});
-    if(!user){
+    const { email, password } = req.body;
+    const user = await User.findOne({ email });
+    if (!user) {
       return res.status(404).json({
         success: false,
         message: "User not found",
       });
     }
-    const isMatch=bcryptjs.compareSync(password,user.password);
-    if(!isMatch){
+    const isMatch = bcryptjs.compareSync(password, user.password);
+    if (!isMatch) {
       return res.status(400).json({
         success: false,
         message: "Invalid password",
       });
     }
-    res.status(200).json({
-      success: true,
-      message: "User signed in successfully",
-    });
 
-    
+    const token = jwt.sign({ id: user._id }, process.env.SECRET_KEY);
+
+    res
+      .status(200)
+      .cookie("access_token", token, {
+        httpOnly: true,
+      })
+      .json({
+        success: true,
+        message: "User signed in successfully",
+        user,
+      });
   } catch (error) {
-    res.status({
+    res.status(500).json({
       success: false,
       message: "Internal server error",
-    })
-    
+    });
   }
-
-}
+};

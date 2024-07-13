@@ -27,24 +27,20 @@ export default function Signin() {
         email: formData.email,
         password: formData.password,
       });
-
-      if (response.status === 404) {
-        setErrorMessage("Invalid credentials");
-        return;
-      }
-      if (response.status === 400) {
-        setErrorMessage("invalid credentials");
-        return;
-      }
+      setLoading(false);
 
       if (response.status === 200) {
         navigate("/");
       }
     } catch (error) {
-      res.status(500).json({
-        success: false,
-        message: "Internal server error",
-      });
+      setLoading(false);
+      if (error.response && error.response.status === 404) {
+        setErrorMessage("User not found");
+      } else if (error.response && error.response.status === 400) {
+        setErrorMessage("Invalid credentials");
+      } else {
+        setErrorMessage("Internal server error");
+      }
     }
   };
 
