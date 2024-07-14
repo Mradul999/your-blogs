@@ -6,6 +6,7 @@ import { NavLink } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 
 import "../Components/bg.css";
+import Oauth from "../Components/Oauth";
 
 export default function SignUp() {
   const navigate = useNavigate();
@@ -23,10 +24,7 @@ export default function SignUp() {
       return;
     }
 
-
     setErrorMessage(null);
-
-
 
     try {
       //send mail with a otp to user at that email
@@ -39,8 +37,7 @@ export default function SignUp() {
         body: JSON.stringify({ email: formData.email }),
       });
 
-
-      if(response.status===400){
+      if (response.status === 400) {
         setLoading(false);
         setErrorMessage("user already registered");
         return;
@@ -61,7 +58,7 @@ export default function SignUp() {
     <div className="h-screen  bg-slate-800 text-white overflow-x-hidden px-3  ">
       <div className="max-w-[400px] signup mx-auto mt-[6rem] px-3 sm:px-8 py-14  bg-gray-600 rounded-lg  ">
         <h1 className="text-center text-[2rem] font-semibold mb-6">SignUp</h1>
-        <form onSubmit={submitHandler} className="flex flex-col gap-6">
+        <form onSubmit={submitHandler} className="flex flex-col gap-6 mb-6">
           <label className="flex flex-col" htmlFor="username">
             Enter username
             <input
@@ -96,21 +93,19 @@ export default function SignUp() {
             />
           </label>
           {errorMessage && <p className="text-red-600 ">*{errorMessage}</p>}
-          <button className="bg-gradient-to-br hover:scale-105 transition-all from-purple-600 to-blue-500 rounded-lg py-3 text-[15px] font-medium hover:bg-gradient-to-bl">
+          <button className="bg-gradient-to-br hover:scale-95 transition-all from-purple-600 to-blue-500 rounded-lg py-3 text-[15px] font-medium hover:bg-gradient-to-bl">
             {loading ? <span className="loader"></span> : "Sign up"}
           </button>
-          <button className="bg-red-600 rounded-lg py-3 hover:scale-105 transition-all hover:bg-red-700 text-[15px] font-medium flex items-center justify-center gap-2">
-            <FaGoogle className="-mt-[0.2rem] bg-white text-2xl text-black p-1 rounded-full" />
-            Continue with Google
-          </button>
-          <p>
-            Already regsitered?{" "}
-            <NavLink to="/signin">
-              {" "}
-              <button className="text-sky-500 font-semibold"> Login</button>
-            </NavLink>{" "}
-          </p>
         </form>
+        <Oauth />
+
+        <p className="mt-6">
+          Already regsitered?{" "}
+          <NavLink to="/signin">
+            {" "}
+            <button className="text-sky-500 font-semibold"> Login</button>
+          </NavLink>{" "}
+        </p>
       </div>
     </div>
   );

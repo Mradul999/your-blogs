@@ -174,3 +174,50 @@ export const signin = async (req, res) => {
     });
   }
 };
+
+//google authentication
+export const googleAuth = async (req, res) => {
+  try {
+    const { email, displayName, photoURL } = req.body;
+
+    const user = await User.findOne({ email });
+    if (user) {
+      const token = jwt.sign({ id: user._id }, process.env.SECRET_KEY);
+      const { password, ...rest } = user._doc;
+      res
+        .status(200)
+        .cookie("access_token", token, {
+          httpOnly: true,
+        })
+        .json(rest);
+    } else {
+      //generate a random password for this user
+      const username =
+        displayName.replace(/\s+/g, "").toLowerCase() +
+        Math.floor(1000 + Math.random() * 9000);
+      const randomPass = username + Math.floor(1000 + Math.random() * 9000);
+      const hashedPass = bcryptjs.hashSync(randomPass, 10);
+
+      const newUser = new User({
+        email,
+        username,
+        profilePic: photoURL,
+        password: hashedPass,
+      });
+      await newUser.save();
+      const token = jwt.sign({ id: newUser._id }, process.env.SECRET_KEY);
+      const { password, ...rest } = newUser._doc;
+      res
+        .status(200)
+        .cookie("access_token", token, {
+          httpOnly: true,
+        })
+        .json(rest);
+    }
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: "Internal server error",
+    })
+  }
+};

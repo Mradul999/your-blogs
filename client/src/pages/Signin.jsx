@@ -4,9 +4,14 @@ import { NavLink, useNavigate } from "react-router-dom";
 import { FaGoogle } from "react-icons/fa6";
 import axios from "axios";
 import { useDispatch } from "react-redux";
-import { signInStart,signInFailure,signInSuccess } from "../redux/slices/UserSlice";
+import {
+  signInStart,
+  signInFailure,
+  signInSuccess,
+} from "../redux/slices/UserSlice";
+import Oauth from "../Components/Oauth";
 export default function Signin() {
-  const dispatch=useDispatch();
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const [formData, setFormData] = useState({});
   const [errorMessage, setErrorMessage] = useState(null);
@@ -52,7 +57,7 @@ export default function Signin() {
     <div className="h-screen  bg-slate-800 text-white overflow-x-hidden px-3  ">
       <div className="max-w-[400px] signup mx-auto mt-[9rem] px-3 sm:px-8 py-16  bg-gray-600 rounded-lg  ">
         <h1 className="text-center text-[2rem] font-semibold mb-6">Sign In</h1>
-        <form onSubmit={submitHandler} className="flex flex-col gap-6">
+        <form onSubmit={submitHandler} className="flex flex-col gap-6 mb-6">
           <label className="flex flex-col" htmlFor="username">
             Enter email
             <input
@@ -76,21 +81,20 @@ export default function Signin() {
             />
           </label>
           {errorMessage && <p className="text-red-600 ">*{errorMessage}</p>}
-          <button className="bg-gradient-to-br from-purple-600 hover:scale-105 transition-all to-blue-500 rounded-lg py-3 text-[15px] font-medium hover:bg-gradient-to-bl">
+          <button className="bg-gradient-to-br from-purple-600 hover:scale-95 transition-all to-blue-500 rounded-lg py-3 text-[15px] font-medium hover:bg-gradient-to-bl">
             {loading ? <span className="loader"></span> : "Sign In"}
           </button>
-          <button className="bg-red-600 hover:bg-red-700 hover:scale-105 transition-all rounded-lg py-3 text-[15px] font-medium flex items-center justify-center gap-2">
-            <FaGoogle className="-mt-[0.2rem] bg-white text-2xl text-black p-1 rounded-full" />
-            Continue with Google
-          </button>
-          <p>
+
+          
+        </form>
+        <Oauth />
+        <p className="mt-6">
             Not regsitered yet?{" "}
             <NavLink to="/signup">
               {" "}
               <button className="text-sky-500 font-semibold"> Signup</button>
             </NavLink>{" "}
           </p>
-        </form>
       </div>
     </div>
   );
