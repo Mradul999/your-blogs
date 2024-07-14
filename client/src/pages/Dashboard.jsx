@@ -6,7 +6,7 @@ import Profile from "../Components/Profile";
 
 export default function Dashboard() {
   const location = useLocation();
-  const [tab, setTab] = useState("");
+  const [tab, setTab] = useState("profile");
 
   useEffect(() => {
     const urlParams = new URLSearchParams(location.search);
@@ -16,7 +16,7 @@ export default function Dashboard() {
     }
   }, [location.search]);
   return (
-    <div className="h-screen flex flex-wrap">
+    <div className="h-screen flex md:flex-row flex-col justify-between  ">
       <Sidebar />
       {tab === "profile" && <Profile />}
     </div>
