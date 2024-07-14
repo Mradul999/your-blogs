@@ -22,9 +22,9 @@ export default function OTPVerification() {
 
     try {
       setLoading(true);
-      const email = localStorage.getItem("email");
-      const username = localStorage.getItem("username");
-      const password = localStorage.getItem("password");
+      const email = sessionStorage.getItem("email");
+      const username = sessionStorage.getItem("username");
+      const password = sessionStorage.getItem("password");
       const response = await axios.post("/api/auth/verifyotp", { otp, email });
       if (response.status === 200) {
         setLoading(false);

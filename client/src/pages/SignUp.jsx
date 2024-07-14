@@ -46,9 +46,9 @@ export default function SignUp() {
         return;
       }
       if (response.status === 200) {
-        localStorage.setItem("email", formData.email);
-        localStorage.setItem("username", formData.username);
-        localStorage.setItem("password", formData.password);
+        sessionStorage.setItem("email", formData.email);
+        sessionStorage.setItem("username", formData.username);
+        sessionStorage.setItem("password", formData.password);
         setLoading(false);
         navigate("/otpverification");
       }
