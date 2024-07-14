@@ -3,7 +3,9 @@ import { FaMoon } from "react-icons/fa6";
 import { NavLink } from "react-router-dom";
 import { CiSearch } from "react-icons/ci";
 import { RxHamburgerMenu } from "react-icons/rx";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { toggleTheme } from "../redux/slices/themeSlice";
+import { FaRegSun } from "react-icons/fa";
 
 export default function Header() {
   const [visible, setVisible] = useState(false);
@@ -11,6 +13,9 @@ export default function Header() {
   const [dropdown, setDropdown] = useState(false);
 
   const { currentUser } = useSelector((state) => state.user);
+  const { theme } = useSelector((state) => state.theme);
+  console.log(theme);
+  const dispatch = useDispatch();
 
   const burgerClickHandler = () => {
     setVisible(!visible);
@@ -25,7 +30,8 @@ export default function Header() {
   };
 
   return (
-    <div className="flex flex-col ">
+ 
+    <div className="flex flex-col text-white ">
       <div className="flex justify-between px-2 sm:px-12 bg-slate-700 shadow-sm shadow-slate-300 py-3 items-center text-gray-200">
         <NavLink to="/">
           <h1 className="text-white text-xl cursor-pointer">
@@ -76,7 +82,18 @@ export default function Header() {
         </ul>
         <div className="sm:gap-6 gap-3 flex items-center relative">
           <CiSearch className="text-2xl cursor-pointer sm:hidden block flex-none" />
-          <FaMoon className="text-2xl" />
+          {theme === "light" ? (
+            <FaMoon
+              onClick={() => dispatch(toggleTheme())}
+              className="text-2xl cursor-pointer"
+            />
+          ) : (
+            <FaRegSun
+              onClick={() => dispatch(toggleTheme())}
+              className="text-2xl cursor-pointer"
+            />
+          )}
+
           {currentUser ? (
             <img
               onClick={profileClickHandler}
@@ -97,7 +114,7 @@ export default function Header() {
           {dropdown && (
             <div className="absolute bg-slate-800 rounded-md px-5 py-3   flex flex-col top-16 right-0 ">
               <p>@{currentUser.data.username}</p>
-              
+
               <p>{currentUser.data.email}</p>
               <div className="w-full h-[0.8px] my-1 rounded-full bg-gray-400"></div>
               <p className="mt-3 hover:text-purple-600 text-[14px] font-medium cursor-pointer transition-all hover">

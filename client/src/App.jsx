@@ -7,29 +7,36 @@ import Dashboard from "./pages/Dashboard";
 import About from "./pages/About";
 import Projects from "./pages/Projects";
 import Header from "./Components/Header";
-
-import "./App.css";
 import OTPVerification from "./pages/OTPVerification";
 import Footer from "./Components/Footer";
+import PrivateRoute from "./Components/PrivateRoute";
+
+import "./App.css";
 
 export default function App() {
   return (
     <div>
-      <Header></Header>
-
-      <Routes>
-        <Route path="/" element={<Home></Home>}></Route>
-        <Route path="/signup" element={<SignUp></SignUp>}></Route>
-        <Route path="/signin" element={<Signin></Signin>}></Route>
-        <Route path="/dashboard" element={<Dashboard></Dashboard>}></Route>
-        <Route path="/about" element={<About></About>}></Route>
-        <Route path="/projects" element={<Projects></Projects>}></Route>
-        <Route
-          path="/otpverification"
-          element={<OTPVerification></OTPVerification>}
-        ></Route>
-      </Routes>
-      <Footer></Footer>
+      <BrowserRouter>
+        <Header />
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/projects" element={<Projects />} />
+          
+          <Route path="/signup" element={<SignUp />} />
+          <Route path="/signin" element={<Signin />} />
+          <Route path="/otpverification" element={<OTPVerification />} />
+          <Route
+            path="/dashboard"
+            element={
+              <PrivateRoute>
+                <Dashboard />
+              </PrivateRoute>
+            }
+          />
+        </Routes>
+        <Footer />
+      </BrowserRouter>
     </div>
   );
 }
