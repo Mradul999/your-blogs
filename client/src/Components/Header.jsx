@@ -3,10 +3,14 @@ import { FaMoon } from "react-icons/fa6";
 import { NavLink } from "react-router-dom";
 import { CiSearch } from "react-icons/ci";
 import { RxHamburgerMenu } from "react-icons/rx";
+import { useSelector } from "react-redux";
 
 export default function Header() {
   const [visible, setVisible] = useState(false);
   const [activeLink, setActiveLink] = useState("");
+  const [dropdown, setDropdown] = useState(false);
+
+  const { currentUser } = useSelector((state) => state.user);
 
   const burgerClickHandler = () => {
     setVisible(!visible);
@@ -14,6 +18,10 @@ export default function Header() {
 
   const handleLinkClick = (link) => {
     setActiveLink(link);
+  };
+
+  const profileClickHandler = () => {
+    setDropdown(!dropdown);
   };
 
   return (
@@ -66,17 +74,42 @@ export default function Header() {
             </li>
           </NavLink>
         </ul>
-        <div className="sm:gap-6 gap-3 flex items-center">
+        <div className="sm:gap-6 gap-3 flex items-center relative">
           <CiSearch className="text-2xl cursor-pointer sm:hidden block flex-none" />
           <FaMoon className="text-2xl" />
-          <NavLink to="/signin">
-            <button
-              type="button"
-              className="text-white bg-gradient-to-br from-purple-600 to-blue-500 hover:bg-gradient-to-bl focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg px-5 py-2.5 text-center"
-            >
-              Sign in
-            </button>
-          </NavLink>
+          {currentUser ? (
+            <img
+              onClick={profileClickHandler}
+              src={currentUser.data.profilePic}
+              className="rounded-full w-10 cursor-pointer h-10"
+              alt="userprofile"
+            />
+          ) : (
+            <NavLink to="/signin">
+              <button
+                type="button"
+                className="text-white bg-gradient-to-br from-purple-600 to-blue-500 hover:bg-gradient-to-bl focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg px-5 py-2.5 text-center"
+              >
+                Sign in
+              </button>
+            </NavLink>
+          )}
+          {dropdown && (
+            <div className="absolute bg-slate-800 rounded-md px-5 py-3   flex flex-col top-16 right-0 ">
+              <p>@{currentUser.data.username}</p>
+              
+              <p>{currentUser.data.email}</p>
+              <div className="w-full h-[0.8px] my-1 rounded-full bg-gray-400"></div>
+              <p className="mt-3 hover:text-purple-600 text-[14px] font-medium cursor-pointer transition-all hover">
+                Profile
+              </p>
+              <div className="w-full h-[0.6px] my-1 rounded-full bg-gray-400"></div>
+              <p className="mt-3 cursor-pointer transition-all w-[6rem]  bg-gradient-to-br from-purple-600 to-blue-500 hover:bg-gradient-to-bl font-medium rounded-lg px-2 py-2 ">
+                Sign out
+              </p>
+            </div>
+          )}
+
           <RxHamburgerMenu
             className="sm:hidden text-3xl cursor-pointer "
             onClick={burgerClickHandler}
