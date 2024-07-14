@@ -6,8 +6,10 @@ import { RxHamburgerMenu } from "react-icons/rx";
 import { useDispatch, useSelector } from "react-redux";
 import { toggleTheme } from "../redux/slices/themeSlice";
 import { FaRegSun } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
 
 export default function Header() {
+
   const [visible, setVisible] = useState(false);
   const [activeLink, setActiveLink] = useState("");
   const [dropdown, setDropdown] = useState(false);
@@ -28,6 +30,15 @@ export default function Header() {
   const profileClickHandler = () => {
     setDropdown(!dropdown);
   };
+  const navigate=useNavigate();
+  const dashboardHandler=()=>{
+    navigate("/dashboard");
+    setDropdown(false);
+    setActiveLink("");
+    
+
+  }
+
 
   return (
  
@@ -117,7 +128,7 @@ export default function Header() {
 
               <p>{currentUser.data.email}</p>
               <div className="w-full h-[0.8px] my-1 rounded-full bg-gray-400"></div>
-              <p className="mt-3 hover:text-purple-600 text-[14px] font-medium cursor-pointer transition-all hover">
+              <p onClick={dashboardHandler} className="mt-3 hover:text-purple-600  text-[14px] font-medium cursor-pointer transition-all hover">
                 Profile
               </p>
               <div className="w-full h-[0.6px] my-1 rounded-full bg-gray-400"></div>
