@@ -1,5 +1,5 @@
 import express from "express";
-import {GenerateOTP, VerifyOTP, googleAuth, signin, signup, updateUser}  from "../Controllers/auth.controller.js";
+import {GenerateOTP, VerifyOTP, googleAuth, signin, signup, }  from "../Controllers/auth.controller.js";
 
 const router=express.Router();
 

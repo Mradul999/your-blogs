@@ -39,7 +39,8 @@ export default function Profile() {
   const uploadImage = async () => {
     setImgUploading(true);
     const storage = getStorage(app);
-    const storageRef = ref(storage, imageFile.name);
+    const fileName= new Date().getTime()+imageFile.name;
+    const storageRef = ref(storage, fileName);
     const uploadTask = uploadBytesResumable(storageRef, imageFile);
 
     uploadTask.on(

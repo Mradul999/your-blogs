@@ -217,6 +217,4 @@ export const googleAuth = async (req, res) => {
 };
 
 //updating the user
-export const updateUser = async (req, res, next) => {
-  console.log(req.user);
-};
+
