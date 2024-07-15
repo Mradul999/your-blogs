@@ -3,12 +3,15 @@ import express from "express";
 import dotenv from "dotenv";
 
 import authRoute from "./Routes/auth.js";
+import userRoute from "./Routes/user.js"
+import cookieParser from "cookie-parser";
 
 
 dotenv.config();
 const app = express();
 
 app.use(express.json());
+app.use(cookieParser());
 
 
 
@@ -26,3 +29,4 @@ app.listen(process.env.PORT, () => {
 });
 
 app.use("/api/auth", authRoute);
+app.use("/api/user",userRoute)

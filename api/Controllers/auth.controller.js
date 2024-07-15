@@ -9,10 +9,10 @@ dotenv.config();
 
 //signup functionality
 export const signup = async (req, res) => {
-  const { username, email, password } = req.body;
+  const { name, email, password, profilePic } = req.body;
   try {
     //checking empty fields
-    if (!username || !email || !password) {
+    if (!name || !email || !password) {
       return res.status(400).json({
         success: false,
         message: "Please fill all fields",
@@ -28,6 +28,9 @@ export const signup = async (req, res) => {
     }
 
     //hashing the password for security
+    const username =
+      name.replace(/\s+/g, "").toLowerCase() +
+      Math.floor(1000 + Math.random() * 9000);
 
     const hashedPass = bcryptjs.hashSync(password, 10);
     //creating a new user in the db with the current data
@@ -35,12 +38,10 @@ export const signup = async (req, res) => {
       username,
       email,
       password: hashedPass,
+      profilePic,
     });
     await newUser.save();
-    res.status(200).json({
-      success: true,
-      message: "User registered successfully",
-    });
+    res.status(200).json(newUser);
   } catch (error) {
     console.log(error);
     res.status(500).json({
@@ -117,13 +118,6 @@ export const VerifyOTP = async (req, res) => {
       });
     }
 
-    // if (otpDoc.createdAt < new Date(Date.now() - 2 * 60 * 1000)) {
-    //   return res.status(403).json({
-    //     success: false,
-    //     message: "otp expire please generate a new otp",
-    //   });
-    // }
-
     res.status(200).json({
       success: true,
       message: "otp verified successfully",
@@ -156,17 +150,14 @@ export const signin = async (req, res) => {
     }
 
     const token = jwt.sign({ id: user._id }, process.env.SECRET_KEY);
+    const { password: pass, ...rest } = user._doc;
 
     res
       .status(200)
       .cookie("access_token", token, {
         httpOnly: true,
       })
-      .json({
-        success: true,
-        message: "User signed in successfully",
-        user,
-      });
+      .json(rest);
   } catch (error) {
     res.status(500).json({
       success: false,
@@ -205,12 +196,15 @@ export const googleAuth = async (req, res) => {
         password: hashedPass,
       });
       await newUser.save();
-      const token = jwt.sign({ id: newUser._id }, process.env.SECRET_KEY);
+      const token = jwt.sign({ id: newUser._id }, process.env.SECRET_KEY, {
+        expiresIn: "10s",
+      });
       const { password, ...rest } = newUser._doc;
       res
         .status(200)
         .cookie("access_token", token, {
           httpOnly: true,
+          maxAge: 20000,
         })
         .json(rest);
     }
@@ -218,6 +212,11 @@ export const googleAuth = async (req, res) => {
     res.status(500).json({
       success: false,
       message: "Internal server error",
-    })
+    });
   }
+};
+
+//updating the user
+export const updateUser = async (req, res, next) => {
+  console.log(req.user);
 };

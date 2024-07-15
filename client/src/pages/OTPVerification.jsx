@@ -2,12 +2,16 @@ import React from "react";
 import { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { signInSuccess } from "../redux/slices/UserSlice";
 
 export default function OTPVerification() {
   const navigate = useNavigate();
   const [otp, setOtp] = useState("");
   const [errorMessage, setErrorMessage] = useState(null);
   const [loading, setLoading] = useState(false);
+
+  const dispatch = useDispatch();
 
   const changeHandler = (event) => {
     setOtp(event.target.value);
@@ -23,16 +27,25 @@ export default function OTPVerification() {
     try {
       setLoading(true);
       const email = sessionStorage.getItem("email");
-      const username = sessionStorage.getItem("username");
+      const name = sessionStorage.getItem("username");
       const password = sessionStorage.getItem("password");
+      const profilePic =
+        "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png";
       const response = await axios.post("/api/auth/verifyotp", { otp, email });
       if (response.status === 200) {
         setLoading(false);
-        await axios.post("/api/auth/signup", { username, email, password });
+        const signupResponse = await axios.post("/api/auth/signup", {
+          name,
+          email,
+          password,
+          profilePic,
+        });
+        console.log("response of signup is=>", signupResponse);
+        dispatch(signInSuccess(signupResponse));
 
         navigate("/");
       }
-      console.log("error status",response.status)
+      console.log("error status", response.status);
       if (response.status === 409) {
         setLoading(false);
         setErrorMessage("Invalid OTP");
@@ -44,7 +57,14 @@ export default function OTPVerification() {
         return;
       }
     } catch (error) {
-      console.log(error);
+      setLoading(false);
+      if (error.response && error.response.status === 409) {
+        setErrorMessage("invalid otp ");
+      } else if (error.response && error.response.status === 400) {
+        setErrorMessage("otp expire please generate a new otp");
+      } else {
+        setErrorMessage("Internal server error");
+      }
     }
   };
   return (
