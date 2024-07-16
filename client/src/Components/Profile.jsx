@@ -1,11 +1,15 @@
 import React, { useEffect, useState, useRef } from "react";
 import { useSelector } from "react-redux";
-import { updateSuccess } from "../redux/slices/UserSlice.js";
+import { updateSuccess,deleteUserSuccess,signoutUserSuccess } from "../redux/slices/UserSlice.js";
 import { useDispatch } from "react-redux";
 import "../Components/bg.css";
 import app from "../firebase.js";
 import axios from "axios";
-import toast, { Toaster } from "react-hot-toast";
+import { CgDanger } from "react-icons/cg";
+import { useNavigate } from "react-router-dom";
+
+
+
 import {
   getStorage,
   ref,
@@ -21,12 +25,16 @@ export default function Profile() {
   const [imgUploading, setImgUploading] = useState(false);
   const [uploadedImageUrl, setUploadedImageUrl] = useState(null); // to store the uploaded image URL from Firebase
   const [imgUploadingError, setImgUplaodingError] = useState(false);
-
   const [successMessage, setsuccessMessage] = useState(null);
   const [errorMessage, setErrorMessage] = useState(null);
   const dispatch = useDispatch();
-
   const [formData, setFormData] = useState({});
+
+  const[deleteLoading,setDeleteLoading]=useState(false);
+
+  const navigate=useNavigate();
+
+  const [modal, setModal] = useState(false);
 
   const photoRef = useRef();
 
@@ -37,6 +45,10 @@ export default function Profile() {
       setImageFile(file);
       setImageFileUrl(URL.createObjectURL(file));
     }
+  };
+
+  const modalHandler = () => {
+    setModal(true);
   };
 
   useEffect(() => {
@@ -79,9 +91,8 @@ export default function Profile() {
     setFormData({ ...formData, [e.target.id]: e.target.value });
   };
 
-
   //form submit
-  const submitHandler = async (e, res) => {
+  const submitHandler = async (e) => {
     e.preventDefault();
     if (Object.keys(formData).length === 0) {
       return;
@@ -107,26 +118,89 @@ export default function Profile() {
       setLoading(false);
       if (error.response) {
         if (error.response.status === 402) {
-          
           setErrorMessage(
             "Username should be 7-12 characters long, all lowercase letters, and should not contain spaces or special characters"
           );
         } else if (error.response.status === 401) {
-          
-          setErrorMessage(
-            "Password should be between 6 and 15 characters"
-          );
-        }else if(error.response){
+          setErrorMessage("Password should be between 6 and 15 characters");
+        } else if (error.response) {
           setErrorMessage("Network error. Please try again.");
-
-        }else{
-          setErrorMessage("unexpected error occured")
+        } else {
+          setErrorMessage("unexpected error occured");
         }
       }
     }
   };
+
+  //delete handler
+  const deleteHandler=async()=>{
+    try {
+      setDeleteLoading(true);
+      console.log("current user id", currentUser.data._id);
+      const deleteResponse=await axios.delete(`/api/user/delete/${currentUser.data._id}`);
+      if(deleteResponse.status===200){
+        setDeleteLoading(false);
+        dispatch(deleteUserSuccess());
+        navigate("/signin");
+
+
+      }
+      
+    } catch (error) {
+      setDeleteLoading(false);
+      console.log(error)
+      
+    }
+
+  }
+
+  //signout handler
+  const signoutHandler=async()=>{
+    try {
+      
+      const signoutResponse=await axios.post("/api/user/signout");
+      if(signoutResponse.status===200){
+        
+        dispatch(signoutUserSuccess());
+        navigate("/signin");
+      }
+
+      
+    } catch (error) {
+      console.log(error)
+      
+    }
+
+  }
+
+
   return (
-    <div className="w-screen h-screen flex justify-center  items-center">
+    <div className="w-screen relative px-auto h-screen flex justify-center  items-center">
+      {modal && (
+        <div className="  modal-overlay ">
+          
+          
+          <div className=" absolute  mx-3   bg-white  z-20 py-6 md:py-16 flex flex-col gap-4 px-2  md:px-10 rounded-md">
+            <CgDanger className="text-gray-600 mx-auto text-5xl md:text-7xl" />
+
+            <h1 className="sm:text-2xl text-center  text-gray-500">
+              Are you sure to delete this account
+            </h1>
+            <div className="flex md:flex-row flex-col justify-center gap-4">
+              <button onClick={deleteHandler} className="bg-red-600 hover:bg-red-800 text-white sm:text-xl font-medium py-2  px-8 rounded-md">
+                Yes,sure
+              </button>
+              <button
+                onClick={() => setModal(false)}
+                className="bg-gray-600 hover:bg-gray-800 sm:text-xl text-white font-medium py-2 px-8 rounded-md"
+              >
+                No,Cancel
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
       <div className="flex flex-col  gap-6 max-w-[500px]   bg-slate-600 md:py-12 py-4  pb-6 sm:px-6 px-3 mx-3 w-full  rounded-lg profileCard">
         <h1 className="text-center text-4xl font-medium">Profile</h1>
         <input
@@ -192,15 +266,16 @@ export default function Profile() {
           </button>
         </form>
         <div className="flex justify-between">
-        <button onClick={showDeletePopup} className=" hover:scale-95 transition-all rounded-lg mt-1  text-[15px] text-red-600 font-medium ">
-          Delete Account
-        </button>
-        <button className=" hover:scale-95 transition-all rounded-lg mt-1  text-[15px] text-red-600 font-medium ">
-         Sign out
-        </button>
-
+          <button
+            onClick={modalHandler}
+            className=" hover:scale-95 transition-all rounded-lg mt-1  text-[15px] text-red-600 font-medium "
+          >
+            Delete Account
+          </button>
+          <button onClick={signoutHandler} className=" hover:scale-95 transition-all rounded-lg mt-1  text-[15px] text-red-600 font-medium ">
+            Sign out
+          </button>
         </div>
-        
       </div>
     </div>
   );

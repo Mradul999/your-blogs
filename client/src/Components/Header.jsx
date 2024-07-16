@@ -8,8 +8,10 @@ import { toggleTheme } from "../redux/slices/themeSlice";
 import { FaRegSun } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 
-export default function Header() {
+import { signoutUserSuccess } from "../redux/slices/UserSlice";
+import axios from "axios";
 
+export default function Header() {
   const [visible, setVisible] = useState(false);
   const [activeLink, setActiveLink] = useState("");
   const [dropdown, setDropdown] = useState(false);
@@ -30,18 +32,28 @@ export default function Header() {
   const profileClickHandler = () => {
     setDropdown(!dropdown);
   };
-  const navigate=useNavigate();
-  const dashboardHandler=()=>{
+  const navigate = useNavigate();
+  const dashboardHandler = () => {
     navigate("/dashboard");
     setDropdown(false);
     setActiveLink("");
-    
+  };
 
-  }
+  const signoutHandler = async () => {
+    try {
+      const signoutResponse = await axios.post("/api/user/signout");
+      if (signoutResponse.status === 200) {
+        setDropdown(false);
 
+        dispatch(signoutUserSuccess());
+        navigate("/signin");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
- 
     <div className="flex flex-col text-white ">
       <div className="flex justify-between px-2 sm:px-12 bg-slate-700 shadow-sm shadow-slate-300 py-3 items-center text-gray-200">
         <NavLink to="/">
@@ -124,15 +136,22 @@ export default function Header() {
           )}
           {dropdown && (
             <div className="absolute bg-slate-800 rounded-md px-5 py-3   flex flex-col top-16 right-0 ">
-              <p>@{currentUser.data.username}</p>
+              <p>@{currentUser?currentUser.data.username:""}</p>
 
-              <p>{currentUser.data.email}</p>
+              <p>{currentUser?currentUser.data.email:""}</p>
+
               <div className="w-full h-[0.8px] my-1 rounded-full bg-gray-400"></div>
-              <p onClick={dashboardHandler} className="mt-3 hover:text-purple-600  text-[14px] font-medium cursor-pointer transition-all hover">
+              <p
+                onClick={dashboardHandler}
+                className="mt-3 hover:text-purple-600  text-[14px] font-medium cursor-pointer transition-all hover"
+              >
                 Profile
               </p>
               <div className="w-full h-[0.6px] my-1 rounded-full bg-gray-400"></div>
-              <p className="mt-3 cursor-pointer transition-all w-[6rem]  bg-gradient-to-br from-purple-600 to-blue-500 hover:bg-gradient-to-bl font-medium rounded-lg px-2 py-2 ">
+              <p
+                onClick={signoutHandler}
+                className="mt-3 cursor-pointer transition-all w-[6rem]  bg-gradient-to-br from-purple-600 to-blue-500 hover:bg-gradient-to-bl font-medium rounded-lg px-2 py-2 "
+              >
                 Sign out
               </p>
             </div>

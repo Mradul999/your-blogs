@@ -196,15 +196,14 @@ export const googleAuth = async (req, res) => {
         password: hashedPass,
       });
       await newUser.save();
-      const token = jwt.sign({ id: newUser._id }, process.env.SECRET_KEY, {
-        expiresIn: "10s",
-      });
+      const token = jwt.sign({ id: newUser._id }, process.env.SECRET_KEY, 
+        );
       const { password, ...rest } = newUser._doc;
       res
         .status(200)
         .cookie("access_token", token, {
           httpOnly: true,
-          maxAge: 20000,
+          
         })
         .json(rest);
     }

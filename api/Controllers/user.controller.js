@@ -69,9 +69,9 @@ export const updateUser = async (req, res, next) => {
   }
 };
 
-
 //deleting the user completelyt from backend and frotnend
-export const deleteUser=async(req,res,next)=>{
+export const deleteUser = async (req, res, next) => {
+  console.log("user id from params", req.params.userid);
   if (req.user.id !== req.params.userid) {
     return res.status(403).json({
       success: false,
@@ -80,18 +80,30 @@ export const deleteUser=async(req,res,next)=>{
   }
 
   try {
-    const deletedUser=await User.findByIdAndDelete(req.params.userid)
+    await User.findByIdAndDelete(req.params.userid);
     res.status(200).json({
-      success:true,
-      message:"user deleted successfully"
-    })
-    
+      success: true,
+      message: "user deleted successfully",
+    });
   } catch (error) {
     res.status(500).json({
       success: false,
       message: "Internal server error",
-    })
-    
+    });
   }
+};
 
-}
+export const signoutUser = async (req, res) => {
+  try {
+    res.clearCookie("access_token");
+    res.status(200).json({
+      success: true,
+      message: "User signed out successfully",
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: "Internal server error",
+    });
+  }
+};
