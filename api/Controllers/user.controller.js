@@ -68,3 +68,30 @@ export const updateUser = async (req, res, next) => {
     });
   }
 };
+
+
+//deleting the user completelyt from backend and frotnend
+export const deleteUser=async(req,res,next)=>{
+  if (req.user.id !== req.params.userid) {
+    return res.status(403).json({
+      success: false,
+      message: "You are not allowed to delete this user",
+    });
+  }
+
+  try {
+    const deletedUser=await User.findByIdAndDelete(req.params.userid)
+    res.status(200).json({
+      success:true,
+      message:"user deleted successfully"
+    })
+    
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: "Internal server error",
+    })
+    
+  }
+
+}

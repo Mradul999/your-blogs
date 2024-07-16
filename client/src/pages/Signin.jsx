@@ -76,9 +76,9 @@ export default function Signin() {
               id="password"
               onChange={handleChange}
               placeholder="****"
-              className="py-2 rounded-lg text-[13px] pl-2 bg-slate-700 focus:outline-none focus:border-[0.2rem] focus:border-sky-400 "
+              className="py-2 rounded-lg text-[13px] pl-2 pr-2 bg-slate-700 focus:outline-none focus:border-[0.2rem] focus:border-sky-400 "
               name="username"
-              type="text"
+              type="password"
             />
           </label>
           {errorMessage && <p className="text-red-600 ">*{errorMessage}</p>}

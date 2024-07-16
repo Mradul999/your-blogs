@@ -1,7 +1,11 @@
 import React, { useEffect, useState, useRef } from "react";
 import { useSelector } from "react-redux";
+import { updateSuccess } from "../redux/slices/UserSlice.js";
+import { useDispatch } from "react-redux";
 import "../Components/bg.css";
 import app from "../firebase.js";
+import axios from "axios";
+import toast, { Toaster } from "react-hot-toast";
 import {
   getStorage,
   ref,
@@ -17,6 +21,12 @@ export default function Profile() {
   const [imgUploading, setImgUploading] = useState(false);
   const [uploadedImageUrl, setUploadedImageUrl] = useState(null); // to store the uploaded image URL from Firebase
   const [imgUploadingError, setImgUplaodingError] = useState(false);
+
+  const [successMessage, setsuccessMessage] = useState(null);
+  const [errorMessage, setErrorMessage] = useState(null);
+  const dispatch = useDispatch();
+
+  const [formData, setFormData] = useState({});
 
   const photoRef = useRef();
 
@@ -39,7 +49,7 @@ export default function Profile() {
   const uploadImage = async () => {
     setImgUploading(true);
     const storage = getStorage(app);
-    const fileName= new Date().getTime()+imageFile.name;
+    const fileName = new Date().getTime() + imageFile.name;
     const storageRef = ref(storage, fileName);
     const uploadTask = uploadBytesResumable(storageRef, imageFile);
 
@@ -58,19 +68,66 @@ export default function Profile() {
         // Upload completed successfully, get the download URL
         getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
           setUploadedImageUrl(downloadURL);
+          setFormData({ ...formData, profilePic: downloadURL });
           setImgUploading(false);
         });
       }
     );
   };
+  //changing form state
+  const changeHandler = (e) => {
+    setFormData({ ...formData, [e.target.id]: e.target.value });
+  };
+
 
   //form submit
-  const submitHandler = (e) => {
+  const submitHandler = async (e, res) => {
     e.preventDefault();
+    if (Object.keys(formData).length === 0) {
+      return;
+    }
+
+    try {
+      setLoading(true);
+      setsuccessMessage(null);
+      setErrorMessage(null);
+
+      const updateResponse = await axios.put(
+        `/api/user/update/${currentUser.data._id}`,
+        formData
+      );
+
+      if (updateResponse.status === 200) {
+        setsuccessMessage("Profile updated successfully");
+
+        setLoading(false);
+        dispatch(updateSuccess(updateResponse));
+      }
+    } catch (error) {
+      setLoading(false);
+      if (error.response) {
+        if (error.response.status === 402) {
+          
+          setErrorMessage(
+            "Username should be 7-12 characters long, all lowercase letters, and should not contain spaces or special characters"
+          );
+        } else if (error.response.status === 401) {
+          
+          setErrorMessage(
+            "Password should be between 6 and 15 characters"
+          );
+        }else if(error.response){
+          setErrorMessage("Network error. Please try again.");
+
+        }else{
+          setErrorMessage("unexpected error occured")
+        }
+      }
+    }
   };
   return (
     <div className="w-screen h-screen flex justify-center  items-center">
-      <div className="flex flex-col  gap-6 max-w-[500px]   bg-slate-600 md:py-10 py-4 sm:px-6 px-3 mx-3 w-full  rounded-lg profileCard">
+      <div className="flex flex-col  gap-6 max-w-[500px]   bg-slate-600 md:py-12 py-4  pb-6 sm:px-6 px-3 mx-3 w-full  rounded-lg profileCard">
         <h1 className="text-center text-4xl font-medium">Profile</h1>
         <input
           className="hidden"
@@ -94,31 +151,56 @@ export default function Profile() {
           <p className="text-red-600 font-medium">*{imgUploadingError}</p>
         )}
 
-        <form onSubmit={submitHandler} className="flex flex-col gap-3 md:gap-6">
+        <form onSubmit={submitHandler} className="flex flex-col gap-3 md:gap-3">
           <input
+            id="username"
+            onChange={changeHandler}
             type="text"
-            className="py-3 rounded-lg text-[13px] pl-2 bg-slate-700 focus:outline-none focus:border-[0.2rem] focus:border-sky-400 placeholder:text-white "
+            className="py-4 rounded-lg text-[13px] pl-2 bg-slate-700 focus:outline-none focus:border-[0.2rem] focus:border-sky-400 placeholder:text-white "
             defaultValue={currentUser.data.username}
             placeholder="Username"
           />
           <input
+            id="email"
+            readOnly
+            onChange={changeHandler}
             type="text"
-            className="py-3 rounded-lg text-[13px] pl-2 bg-slate-700 focus:outline-none focus:border-[0.2rem] focus:border-sky-400 placeholder:text-white "
-            defaultValue={currentUser.data.email}
+            className="py-4 rounded-lg cursor-not-allowed  text-[13px] pl-2 bg-slate-700 focus:outline-none  focus:border-sky-400 placeholder:text-white "
+            value={currentUser.data.email}
             placeholder="Email"
           ></input>
           <input
+            id="password"
+            onChange={changeHandler}
             placeholder="Password"
             type="password"
-            className="py-3 rounded-lg text-[13px] pl-2 bg-slate-700 focus:outline-none focus:border-[0.2rem] focus:border-sky-400 placeholder:text-white "
+            className="py-4 rounded-lg text-[13px] pl-2 pr-2 bg-slate-700 focus:outline-none focus:border-[0.2rem] focus:border-sky-400 placeholder:text-white "
           />
+
+          {successMessage && (
+            <button className="rounded-lg py-3 text-[15px] font-medium bg-green-500">
+              {successMessage}
+            </button>
+          )}
+          {errorMessage && (
+            <button className="rounded-lg py-3 text-[15px] font-medium bg-red-600">
+              !! {errorMessage}
+            </button>
+          )}
           <button className="bg-gradient-to-br mt-2 from-purple-600 hover:scale-95 transition-all to-blue-500 rounded-lg py-3 text-[15px] font-medium hover:bg-gradient-to-bl">
-            {loading ? <span className="loader"></span> : "Update"}
+            {loading ? <span className="loader"></span> : "Update Profile"}
           </button>
         </form>
-        <button className="bg-red-500 hover:scale-95 transition-all rounded-lg py-3 text-[15px] font-medium ">
-          {loading ? <span className="loader"></span> : "Delete Account"}
+        <div className="flex justify-between">
+        <button onClick={showDeletePopup} className=" hover:scale-95 transition-all rounded-lg mt-1  text-[15px] text-red-600 font-medium ">
+          Delete Account
         </button>
+        <button className=" hover:scale-95 transition-all rounded-lg mt-1  text-[15px] text-red-600 font-medium ">
+         Sign out
+        </button>
+
+        </div>
+        
       </div>
     </div>
   );
