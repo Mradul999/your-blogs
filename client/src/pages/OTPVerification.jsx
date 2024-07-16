@@ -43,7 +43,7 @@ export default function OTPVerification() {
         console.log("response of signup is=>", signupResponse);
         dispatch(signInSuccess(signupResponse));
 
-        navigate("/");
+        navigate("/signin");
       }
       console.log("error status", response.status);
       if (response.status === 409) {

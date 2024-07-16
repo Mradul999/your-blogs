@@ -41,6 +41,7 @@ export const signup = async (req, res) => {
       profilePic,
     });
     await newUser.save();
+    
     res.status(200).json(newUser);
   } catch (error) {
     console.log(error);
@@ -149,7 +150,7 @@ export const signin = async (req, res) => {
       });
     }
 
-    const token = jwt.sign({ id: user._id }, process.env.SECRET_KEY);
+    const token = jwt.sign({ id: user._id,isAdmin:user.isAdmin }, process.env.SECRET_KEY);
     const { password: pass, ...rest } = user._doc;
 
     res
@@ -196,7 +197,7 @@ export const googleAuth = async (req, res) => {
         password: hashedPass,
       });
       await newUser.save();
-      const token = jwt.sign({ id: newUser._id }, process.env.SECRET_KEY, 
+      const token = jwt.sign({ id: newUser._id,isAdmin:newUser.isAdmin }, process.env.SECRET_KEY, 
         );
       const { password, ...rest } = newUser._doc;
       res
