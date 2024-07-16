@@ -10,6 +10,7 @@ export const updateUser = async (req, res, next) => {
   }
 
   const { password, username, profilePic } = req.body;
+
   const updateData = {};
 
   if (password) {
@@ -31,7 +32,7 @@ export const updateUser = async (req, res, next) => {
       /[^a-zA-Z0-9]/.test(username) ||
       username !== username.toLowerCase()
     ) {
-      return res.status(401).json({
+      return res.status(402).json({
         success: false,
         message:
           "Username should be 7-12 characters long, all lowercase letters, and should not contain spaces or special characters",
@@ -59,7 +60,7 @@ export const updateUser = async (req, res, next) => {
     }
     const { password, ...rest } = updatedUser._doc;
 
-    res.json({ success: true, rest });
+    res.status(200).json(rest);
   } catch (error) {
     res.status(500).json({
       success: false,
