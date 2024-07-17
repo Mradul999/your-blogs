@@ -26,7 +26,7 @@ export default function CreatePost() {
           <div className="flex  justify-between items-center  border-dotted border-teal-500 border-[3px] rounded-md p-5  ">
             <input
               accept="images/.*"
-              className="rounded-lg w-[50%]  bg-red-500"
+              className="rounded-lg md:w-[33%] w-[50%]  bg-red-500"
               type="file"
               name=""
               id=""
