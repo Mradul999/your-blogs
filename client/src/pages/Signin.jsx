@@ -55,8 +55,8 @@ export default function Signin() {
   };
 
   return (
-    <div className="h-screen  bg-slate-800 text-white overflow-x-hidden px-3  ">
-      <div className="max-w-[400px] signup mx-auto mt-[9rem] px-3 sm:px-8 py-16  bg-gray-600 rounded-lg  ">
+    <div className="h-screen  bg-slate-800 flex flex-col  justify-center  text-white overflow-x-hidden px-3  ">
+      <div className="max-w-[500px] w-full signup mx-auto  px-3 sm:px-8 py-10  bg-gray-600 rounded-lg  ">
         <h1 className="text-center text-[2rem] font-semibold mb-6">Sign In</h1>
         <form onSubmit={submitHandler} className="flex flex-col gap-6 mb-6">
           <label className="flex flex-col" htmlFor="username">
@@ -82,7 +82,7 @@ export default function Signin() {
             />
           </label>
           {errorMessage && <p className="text-red-600 ">*{errorMessage}</p>}
-          <button className="bg-gradient-to-br from-purple-600 hover:scale-95 transition-all to-blue-500 rounded-lg py-3 text-[15px] font-medium hover:bg-gradient-to-bl">
+          <button className="bg-gradient-to-br from-purple-600 hover:scale-95  transition-all to-blue-500 rounded-lg py-3 text-[15px] font-medium hover:bg-gradient-to-bl">
             {loading ? <span className="loader"></span> : "Sign In"}
           </button>
 

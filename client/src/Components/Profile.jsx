@@ -1,14 +1,16 @@
 import React, { useEffect, useState, useRef } from "react";
 import { useSelector } from "react-redux";
-import { updateSuccess,deleteUserSuccess,signoutUserSuccess } from "../redux/slices/UserSlice.js";
+import {
+  updateSuccess,
+  deleteUserSuccess,
+  signoutUserSuccess,
+} from "../redux/slices/UserSlice.js";
 import { useDispatch } from "react-redux";
 import "../Components/bg.css";
 import app from "../firebase.js";
 import axios from "axios";
 import { CgDanger } from "react-icons/cg";
-import { useNavigate } from "react-router-dom";
-
-
+import { NavLink, useNavigate } from "react-router-dom";
 
 import {
   getStorage,
@@ -30,9 +32,9 @@ export default function Profile() {
   const dispatch = useDispatch();
   const [formData, setFormData] = useState({});
 
-  const[deleteLoading,setDeleteLoading]=useState(false);
+  const [deleteLoading, setDeleteLoading] = useState(false);
 
-  const navigate=useNavigate();
+  const navigate = useNavigate();
 
   const [modal, setModal] = useState(false);
 
@@ -133,53 +135,41 @@ export default function Profile() {
   };
 
   //delete handler
-  const deleteHandler=async()=>{
+  const deleteHandler = async () => {
     try {
       setDeleteLoading(true);
       console.log("current user id", currentUser.data._id);
-      const deleteResponse=await axios.delete(`/api/user/delete/${currentUser.data._id}`);
-      if(deleteResponse.status===200){
+      const deleteResponse = await axios.delete(
+        `/api/user/delete/${currentUser.data._id}`
+      );
+      if (deleteResponse.status === 200) {
         setDeleteLoading(false);
         dispatch(deleteUserSuccess());
         navigate("/signin");
-
-
       }
-      
     } catch (error) {
       setDeleteLoading(false);
-      console.log(error)
-      
+      console.log(error);
     }
-
-  }
+  };
 
   //signout handler
-  const signoutHandler=async()=>{
+  const signoutHandler = async () => {
     try {
-      
-      const signoutResponse=await axios.post("/api/user/signout");
-      if(signoutResponse.status===200){
-        
+      const signoutResponse = await axios.post("/api/user/signout");
+      if (signoutResponse.status === 200) {
         dispatch(signoutUserSuccess());
         navigate("/signin");
       }
-
-      
     } catch (error) {
-      console.log(error)
-      
+      console.log(error);
     }
-
-  }
-
+  };
 
   return (
-    <div className="w-screen relative px-auto h-screen flex justify-center  items-center">
+    <div className="w-screen relative px-auto min-h-screen flex justify-center  items-center">
       {modal && (
         <div className="  modal-overlay ">
-          
-          
           <div className=" absolute  mx-3   bg-white  z-20 py-6 md:py-16 flex flex-col gap-4 px-2  md:px-10 rounded-md">
             <CgDanger className="text-gray-600 mx-auto text-5xl md:text-7xl" />
 
@@ -187,7 +177,10 @@ export default function Profile() {
               Are you sure to delete this account
             </h1>
             <div className="flex md:flex-row flex-col justify-center gap-4">
-              <button onClick={deleteHandler} className="bg-red-600 hover:bg-red-800 text-white sm:text-xl font-medium py-2  px-8 rounded-md">
+              <button
+                onClick={deleteHandler}
+                className="bg-red-600 hover:bg-red-800 text-white sm:text-xl font-medium py-2  px-8 rounded-md"
+              >
                 Yes,sure
               </button>
               <button
@@ -201,8 +194,8 @@ export default function Profile() {
         </div>
       )}
 
-      <div className="flex flex-col  gap-6 max-w-[500px]   bg-slate-600 md:py-12 py-4  pb-6 sm:px-6 px-3 mx-3 w-full  rounded-lg profileCard">
-        <h1 className="text-center text-4xl font-medium">Profile</h1>
+      <div className="flex flex-col  gap-6 max-w-[500px]    bg-slate-600  py-4   sm:px-6 px-3 mx-3 w-full  rounded-lg profileCard">
+        <h1 className="text-center text-2xl sm:text-4xl font-medium">Profile</h1>
         <input
           className="hidden"
           type="file"
@@ -220,10 +213,12 @@ export default function Profile() {
           {imgUploading && (
             <span className="loader absolute   h-16 w-16 "></span>
           )}
+          
         </div>
         {imgUploadingError && (
           <p className="text-red-600 font-medium">*{imgUploadingError}</p>
         )}
+        {imgUploading && <p className="text-green-600  text-center text-[1.1rem]">please wait image is uploading</p>}
 
         <form onSubmit={submitHandler} className="flex flex-col gap-3 md:gap-3">
           <input
@@ -261,9 +256,16 @@ export default function Profile() {
               !! {errorMessage}
             </button>
           )}
-          <button className="bg-gradient-to-br mt-2 from-purple-600 hover:scale-95 transition-all to-blue-500 rounded-lg py-3 text-[15px] font-medium hover:bg-gradient-to-bl">
+          <button disabled={imgUploading}  className={`bg-gradient-to-br mt-2 from-purple-600  transition-all ${imgUploading?"cursor-not-allowed":"cursor-pointer hover:scale-95 hover:bg-gradient-to-bl"} to-blue-500 rounded-lg py-3 text-[15px] font-medium `}>
             {loading ? <span className="loader"></span> : "Update Profile"}
           </button>
+          <NavLink  to="/createpost">
+            {currentUser?.data.isAdmin && (
+              <button  type="button" className="bg-gradient-to-r from-cyan-500 to-blue-500 hover:scale-95 transition-all w-full  rounded-lg py-3 text-[15px] font-medium hover:bg-gradient-to-bl">
+                Create a post
+              </button>
+            )}
+          </NavLink>
         </form>
         <div className="flex justify-between">
           <button
@@ -272,7 +274,10 @@ export default function Profile() {
           >
             Delete Account
           </button>
-          <button onClick={signoutHandler} className=" hover:scale-95 transition-all rounded-lg mt-1  text-[15px] text-red-600 font-medium ">
+          <button
+            onClick={signoutHandler}
+            className=" hover:scale-95 transition-all rounded-lg mt-1  text-[15px] text-red-600 font-medium "
+          >
             Sign out
           </button>
         </div>

@@ -25,7 +25,7 @@ export default function Oauth() {
         photoURL,
         email,
       });
-      console.log("response of oauth=>",response);
+      console.log("response of oauth=>", response);
       if (response.status === 200) {
         dispath(signInSuccess(response));
         navigate("/");
@@ -35,14 +35,12 @@ export default function Oauth() {
     }
   };
   return (
-    <div className="max-w-[400px]">
-      <button
-        onClick={OauthHandler}
-        className="bg-red-600 w-full hover:bg-red-700 hover:scale-95 transition-all rounded-lg py-3 text-[15px] font-medium flex items-center justify-center gap-2"
-      >
-        <FaGoogle className="-mt-[0.2rem] bg-white text-2xl text-black p-1 rounded-full" />
-        Continue with Google
-      </button>
-    </div>
+    <button
+      onClick={OauthHandler}
+      className="bg-red-600 w-full hover:bg-red-700 hover:scale-95 transition-all rounded-lg py-3 text-[15px] font-medium flex items-center justify-center gap-2"
+    >
+      <FaGoogle className="-mt-[0.2rem]  bg-white text-2xl text-black p-1 rounded-full" />
+      Continue with Google
+    </button>
   );
 }

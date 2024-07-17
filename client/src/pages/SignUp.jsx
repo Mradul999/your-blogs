@@ -55,8 +55,8 @@ export default function SignUp() {
   };
 
   return (
-    <div className="h-screen  bg-slate-800 text-white overflow-x-hidden px-3  ">
-      <div className="max-w-[400px] signup mx-auto mt-[6rem] px-3 sm:px-8 py-14  bg-gray-600 rounded-lg  ">
+    <div className="h-screen  bg-slate-800 flex flex-col justify-center text-white overflow-x-hidden px-3  ">
+      <div className="max-w-[500px] w-full signup mx-auto px-3 sm:px-8 py-8  bg-gray-600 rounded-lg  ">
         <h1 className="text-center text-[2rem] font-semibold mb-6">SignUp</h1>
         <form onSubmit={submitHandler} className="flex flex-col gap-6 mb-6">
           <label className="flex flex-col" htmlFor="username">

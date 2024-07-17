@@ -10,7 +10,7 @@ export default function Footer() {
   return (
     <div className="bg-slate-700 footer">
         
-      <div className="flex sm:flex-row flex-col gap-6 justify-between px-2 sm:px-12 py-8 sm:py-16 shadow-md shadow-black text-white ">
+      <div className="flex sm:flex-row flex-col gap-6 justify-between px-2 sm:px-12 py-8 sm:py-10 shadow-md shadow-black text-white ">
         <div className="flex gap-4 text-3xl">
         <a
         href="https://github.com/Mradul999"

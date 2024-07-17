@@ -16,7 +16,7 @@ export default function Dashboard() {
     }
   }, [location.search]);
   return (
-    <div className="h-screen flex md:flex-row flex-col justify-between  ">
+    <div className="min-h-screen flex md:flex-row flex-col justify-between  ">
       <Sidebar />
       {tab === "profile" && <Profile />}
     </div>

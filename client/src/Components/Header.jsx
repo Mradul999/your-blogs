@@ -55,7 +55,7 @@ export default function Header() {
 
   return (
     <div className="flex flex-col text-white ">
-      <div className="flex justify-between px-2 sm:px-12 bg-slate-700 shadow-sm shadow-slate-300 py-3 items-center text-gray-200">
+      <div className="flex justify-between px-3 bg-slate-700 shadow-sm shadow-slate-300 py-2 items-center text-gray-200">
         <NavLink to="/">
           <h1 className="text-white text-xl cursor-pointer">
             <span className="bg-gradient-to-br from-purple-600 to-blue-500 px-2 py-1 rounded-lg">

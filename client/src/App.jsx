@@ -10,8 +10,10 @@ import Header from "./Components/Header";
 import OTPVerification from "./pages/OTPVerification";
 import Footer from "./Components/Footer";
 import PrivateRoute from "./Components/PrivateRoute";
+import IsAdminPrivateRoute from "./Components/IsAdminPrivateRoute";
 
 import "./App.css";
+import CreatePost from "./pages/CreatePost";
 
 export default function App() {
   return (
@@ -22,7 +24,7 @@ export default function App() {
           <Route path="/" element={<Home />} />
           <Route path="/about" element={<About />} />
           <Route path="/projects" element={<Projects />} />
-          
+
           <Route path="/signup" element={<SignUp />} />
           <Route path="/signin" element={<Signin />} />
           <Route path="/otpverification" element={<OTPVerification />} />
@@ -32,6 +34,14 @@ export default function App() {
               <PrivateRoute>
                 <Dashboard />
               </PrivateRoute>
+            }
+          />
+          <Route
+            path="/createpost"
+            element={
+              <IsAdminPrivateRoute>
+                <CreatePost />
+              </IsAdminPrivateRoute>
             }
           />
         </Routes>
