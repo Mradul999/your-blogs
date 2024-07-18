@@ -59,7 +59,7 @@ export default function Header() {
         <NavLink to="/">
           <h1 className="text-white text-xl cursor-pointer">
             <span className="bg-gradient-to-br from-purple-600 to-blue-500 px-2 py-1 rounded-lg">
-              Your
+              Byte
             </span>{" "}
             Blogs
           </h1>

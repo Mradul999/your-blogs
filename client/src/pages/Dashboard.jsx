@@ -17,7 +17,7 @@ export default function Dashboard() {
     }
   }, [location.search]);
   return (
-    <div className="min-h-screen flex md:flex-row flex-col justify-between  ">
+    <div className="min-h-screen flex md:flex-row flex-col justify-between overflow-x-hidden  ">
       <Sidebar />
       {tab === "profile" && <Profile />}
       {tab === "allposts" && <AllPosts />}
