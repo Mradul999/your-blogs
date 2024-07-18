@@ -3,6 +3,7 @@ import { useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
 import Sidebar from "../Components/Sidebar";
 import Profile from "../Components/Profile";
+import AllPosts from "../Components/AllPosts";
 
 export default function Dashboard() {
   const location = useLocation();
@@ -19,6 +20,7 @@ export default function Dashboard() {
     <div className="min-h-screen flex md:flex-row flex-col justify-between  ">
       <Sidebar />
       {tab === "profile" && <Profile />}
+      {tab === "allposts" && <AllPosts />}
     </div>
   );
 }

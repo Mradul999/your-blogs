@@ -11,6 +11,7 @@ import app from "../firebase.js";
 import axios from "axios";
 import { CgDanger } from "react-icons/cg";
 import { NavLink, useNavigate } from "react-router-dom";
+import { IoDocumentTextOutline } from "react-icons/io5";
 
 import {
   getStorage,
@@ -167,25 +168,25 @@ export default function Profile() {
   };
 
   return (
-    <div className="w-screen relative px-auto min-h-screen flex justify-center  items-center">
+    <div className="w-screen relative px-auto min-h-screen flex justify-center   items-center">
       {modal && (
         <div className="  modal-overlay ">
-          <div className=" absolute  mx-3   bg-white  z-20 py-6 md:py-16 flex flex-col gap-4 px-2  md:px-10 rounded-md">
-            <CgDanger className="text-gray-600 mx-auto text-5xl md:text-7xl" />
+          <div className=" absolute  mx-3   bg-white  z-20 py-6 md:py-10 flex flex-col gap-4 px-2  md:px-8 rounded-md">
+            <CgDanger className="text-gray-600 mx-auto text-3xl md:text-5xl" />
 
-            <h1 className="sm:text-2xl text-center  text-gray-500">
+            <h1 className="sm:text-xl text-center  text-gray-500">
               Are you sure to delete this account
             </h1>
             <div className="flex md:flex-row flex-col justify-center gap-4">
               <button
                 onClick={deleteHandler}
-                className="bg-red-600 hover:bg-red-800 text-white sm:text-xl font-medium py-2  px-8 rounded-md"
+                className="bg-red-600 hover:bg-red-800 text-white sm:text-xl font-medium py-2  px-6 rounded-md"
               >
                 Yes,sure
               </button>
               <button
                 onClick={() => setModal(false)}
-                className="bg-gray-600 hover:bg-gray-800 sm:text-xl text-white font-medium py-2 px-8 rounded-md"
+                className="bg-gray-600 hover:bg-gray-800 sm:text-xl text-white font-medium py-2 px-6 rounded-md"
               >
                 No,Cancel
               </button>
@@ -194,7 +195,7 @@ export default function Profile() {
         </div>
       )}
 
-      <div className="flex flex-col  gap-6 max-w-[500px]    bg-slate-600  py-4   sm:px-6 px-3 mx-3 w-full  rounded-lg profileCard">
+      <div className="flex flex-col  gap-6 max-w-[500px]    bg-slate-600  py-4 my-12   sm:px-6 px-3 mx-3 w-full  rounded-lg profileCard">
         <h1 className="text-center text-2xl sm:text-4xl font-medium">Profile</h1>
         <input
           className="hidden"
@@ -207,7 +208,7 @@ export default function Profile() {
           <img
             onClick={() => photoRef.current.click()}
             src={imageFileUrl || currentUser.data.profilePic}
-            className="md:w-32 md:h-32 w-24 h-24 rounded-full mx-auto cursor-pointer img-shadow   "
+            className="md:w-24 md:h-24 w-20 h-20 rounded-full mx-auto cursor-pointer img-shadow   "
             alt=""
           />
           {imgUploading && (
