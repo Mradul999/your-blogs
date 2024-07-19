@@ -71,6 +71,19 @@ export default function Sidebar() {
           </button>
         )}
       </Link>
+      <Link to="/dashboard?tab=allusers">
+        {" "}
+        {currentUser?.data.isAdmin && (
+          <button
+            onClick={() => handleTabClick("allusers")}
+            className={`w-full py-3 transition-all flex  gap-2 items-center rounded-lg text-[1rem] text-start px-3 font-medium ${
+              activeTab === "allusers" ? "bg-slate-600" : "bg-transparent"
+            }`}
+          >
+            <IoDocumentTextOutline className="text-[20px]" /> users
+          </button>
+        )}
+      </Link>
       <button
         onClick={signoutHandler}
         className="text-[1rem] rounded-lg py-2    font-medium flex items-center px-3  gap-2  hover:font-semibold hover:scale-95 transition-all"

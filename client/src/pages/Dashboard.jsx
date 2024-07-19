@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import Sidebar from "../Components/Sidebar";
 import Profile from "../Components/Profile";
 import AllPosts from "../Components/AllPosts";
+import AllUsers from "../Components/AllUsers";
 
 export default function Dashboard() {
   const location = useLocation();
@@ -21,6 +22,7 @@ export default function Dashboard() {
       <Sidebar />
       {tab === "profile" && <Profile />}
       {tab === "allposts" && <AllPosts />}
+      {tab==="allusers" && <AllUsers/>}
     </div>
   );
 }
