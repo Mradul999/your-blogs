@@ -22,6 +22,7 @@ export default function CreatePost() {
   const [successMessage, setsuccessMessage] = useState(null);
   const navigate = useNavigate();
   const [formData, setFormData] = useState({});
+  console.log("data of the form =>",formData)
 
   const uploadImageHandler = async () => {
     if (!imageFile) {
@@ -47,7 +48,7 @@ export default function CreatePost() {
         // Upload completed successfully, get the download URL
         getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
           setImgUploading(false);
-          setFormData({ ...formData, postPic: downloadURL });
+          setFormData({ ...formData, image: downloadURL });
         });
       }
     );
@@ -142,9 +143,9 @@ export default function CreatePost() {
               {imgUploadingError}
             </span>
           )}
-          {formData.postPic && (
+          {formData.image && (
             <img
-              src={formData.postPic}
+              src={formData.image}
               alt="upload"
               className="object-contain w-full h-72"
             ></img>

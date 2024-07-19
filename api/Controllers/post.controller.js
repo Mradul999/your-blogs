@@ -90,3 +90,36 @@ export const getPosts=async(req,res)=>{
 
 
 }
+
+
+//to delete  a post from the db
+
+export const deletePost= async (req,res)=>{
+  try {
+    const post = await Post.findById(req.params.postId);
+ 
+    if (!post) {
+      return res.status(404).json({
+        success: false,
+        message: "post not found",
+      });
+    }
+
+    if (post.userId.toString()!== req.params.userId.toString() &&!req.user.isAdmin) {
+      return res.status(403).json({
+        success: false,
+        message: "you are not allowed to delete this post",
+      });
+    }
+    await Post.findByIdAndDelete(req.params.postId);
+    res.status(200).json({ success: true, message: "post deleted successfully" });
+  } catch (error) {
+
+    res.status(500).json({
+      
+      success: false,
+      message: "internal server error",
+    });
+  }
+
+}
