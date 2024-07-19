@@ -14,6 +14,7 @@ import IsAdminPrivateRoute from "./Components/IsAdminPrivateRoute";
 
 import "./App.css";
 import CreatePost from "./pages/CreatePost";
+import UpdatePost from "./pages/UpdatePost";
 
 export default function App() {
   return (
@@ -41,6 +42,14 @@ export default function App() {
             element={
               <IsAdminPrivateRoute>
                 <CreatePost />
+              </IsAdminPrivateRoute>
+            }
+          />
+          <Route
+            path="/updatepost/:postId"
+            element={
+              <IsAdminPrivateRoute>
+                <UpdatePost />
               </IsAdminPrivateRoute>
             }
           />

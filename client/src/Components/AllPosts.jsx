@@ -3,7 +3,6 @@ import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 
-
 export default function AllPosts() {
   const { currentUser } = useSelector((state) => state.user);
   const [userPosts, setUserPosts] = useState([]);
@@ -25,20 +24,17 @@ export default function AllPosts() {
     }
   }, [currentUser.data._id]);
 
-  const deletePost = async(postId) => {
-
+  const deletePost = async (postId) => {
     try {
-      const deleteResponse=await axios.delete(`/api/post/delete/${postId}/${currentUser.data._id}`)
-      if(deleteResponse.status===200){
-        setUserPosts(userPosts.filter((post)=>post._id!==postId))
+      const deleteResponse = await axios.delete(
+        `/api/post/delete/${postId}/${currentUser.data._id}`
+      );
+      if (deleteResponse.status === 200) {
+        setUserPosts(userPosts.filter((post) => post._id !== postId));
       }
-      
-      
     } catch (error) {
       console.log(error);
-      
     }
-    
   };
 
   const editPost = (post) => {
@@ -76,7 +72,7 @@ export default function AllPosts() {
           <tbody>
             {userPosts.map((post) => (
               <tr key={post._id} className=" transition-colors duration-200">
-                <td className="py-4 px-6 border-b  text-sm">
+                <td className="py-4 px-6 border-b font-medium  text-sm">
                   {new Date(post.createdAt).toLocaleString()}
                 </td>
                 <td className="py-4 px-6 border-b  text-sm">
@@ -88,11 +84,13 @@ export default function AllPosts() {
                     />
                   </Link>
                 </td>
-                <td className="py-4 px-6 border-b  text-sm text-start whitespace-normal">
+                <td className="py-4 px-6 border-b font-medium  text-sm text-start whitespace-normal">
                   {post.title}
                 </td>
-                <td className="py-4 px-6 border-b  text-sm">{post.category}</td>
-                <td className="py-4 px-6 border-b  text-sm">
+                <td className="py-4 px-6 border-b font-medium  text-sm">
+                  {post.category}
+                </td>
+                <td className="py-4 px-6 border-b font-medium  text-sm">
                   <button
                     onClick={() => deletePost(post._id)}
                     className="text-red-600 hover:text-red-700 hover:scale-105  transition-colors duration-200"
@@ -100,13 +98,16 @@ export default function AllPosts() {
                     Delete
                   </button>
                 </td>
-                <td className="py-4 px-6 border-b  text-sm">
-                  <button
-                    onClick={() => editPost(post)}
-                    className="text-sky-600 hover:text-blue-700 hover:scale-110 transition-colors duration-200"
-                  >
-                    Edit
-                  </button>
+                <td className="py-4 px-6 border-b font-medium  text-sm">
+                  <Link to={`/updatepost/${post._id}`}>
+                    {" "}
+                    <button
+                      onClick={() => editPost(post)}
+                      className="text-sky-600 hover:text-blue-700 hover:scale-110 transition-colors duration-200"
+                    >
+                      Edit
+                    </button>
+                  </Link>
                 </td>
               </tr>
             ))}
