@@ -27,6 +27,21 @@ export default function AllUsers() {
     }
   }, []);
 
+
+  const deleteUser= async(userId)=>{
+    console.log("id of the user=>",userId);
+    try {
+      const response = await axios.delete(`/api/user/delete/${userId}`);
+      if (response.status === 200) {
+        setUsers(users.filter((user) => user._id!== userId));
+      }
+    } catch (error) {
+      console.log(error);
+    }
+
+
+  }
+
   
 
 
@@ -91,8 +106,9 @@ export default function AllUsers() {
                   
                     {" "}
                     <button
+                    onClick={()=>deleteUser(user._id)}
                       
-                      className="text-sky-600 hover:text-blue-700 hover:scale-110 transition-colors duration-200"
+                      className="text-red-600  hover:text-red-800 transition-all duration-200"
                     >
                       Delete
                     </button>

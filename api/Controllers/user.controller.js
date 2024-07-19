@@ -71,12 +71,13 @@ export const updateUser = async (req, res, next) => {
 
 //deleting the user completelyt from backend and frotnend
 export const deleteUser = async (req, res, next) => {
-  console.log("user id from params", req.params.userid);
-  if (req.user.id !== req.params.userid) {
-    return res.status(403).json({
-      success: false,
-      message: "You are not allowed to delete this user",
-    });
+  if (!req.user.isAdmin) {
+    if (req.user.id !== req.params.userid) {
+      return res.status(403).json({
+        success: false,
+        message: "You are not allowed to delete this user",
+      });
+    }
   }
 
   try {
@@ -109,8 +110,6 @@ export const signoutUser = async (req, res) => {
 };
 
 export const getUsers = async (req, res) => {
- 
-
   try {
     const startIndex = parseInt(req.query.startIndex) || 0;
     const limit = parseInt(req.query.limit) || 9;
