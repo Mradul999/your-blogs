@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 export default function AllPosts() {
   const { currentUser } = useSelector((state) => state.user);
   const [userPosts, setUserPosts] = useState([]);
-  console.log(userPosts);
+
 
   useEffect(() => {
     const fetchPosts = async () => {
@@ -85,7 +85,7 @@ export default function AllPosts() {
                   </Link>
                 </td>
                 <td className="py-4 px-6 border-b font-medium  text-sm text-start whitespace-normal">
-                  {post.title}
+                  <Link to={`/post/${post.slug}`}>{post.title}</Link>
                 </td>
                 <td className="py-4 px-6 border-b font-medium  text-sm">
                   {post.category}

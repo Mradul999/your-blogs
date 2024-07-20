@@ -15,6 +15,7 @@ import IsAdminPrivateRoute from "./Components/IsAdminPrivateRoute";
 import "./App.css";
 import CreatePost from "./pages/CreatePost";
 import UpdatePost from "./pages/UpdatePost";
+import PostPage from "./pages/PostPage";
 
 export default function App() {
   return (
@@ -53,7 +54,9 @@ export default function App() {
               </IsAdminPrivateRoute>
             }
           />
+           <Route path="/post/:postSlug" element={<PostPage/>}></Route>
         </Routes>
+       
         <Footer />
       </BrowserRouter>
     </div>
