@@ -16,11 +16,13 @@ import "./App.css";
 import CreatePost from "./pages/CreatePost";
 import UpdatePost from "./pages/UpdatePost";
 import PostPage from "./pages/PostPage";
-
+import ScrollToTop from "./Components/ScrollToTop";
 export default function App() {
   return (
     <div>
       <BrowserRouter>
+      <ScrollToTop/>
+   
         <Header />
         <Routes>
           <Route path="/" element={<Home />} />
