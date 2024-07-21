@@ -11,7 +11,7 @@ export default function CommentSection({ postId }) {
   const [comments, setComments] = useState([]);
   const userId = currentUser.data._id;
 
-  const commentChangeHandler = (e) => { 
+  const commentChangeHandler = (e) => {
     setCharacters(e.target.value.length);
     setContent(e.target.value);
   };
@@ -41,11 +41,20 @@ export default function CommentSection({ postId }) {
         postId,
         userId,
       });
-      setComments([commentResponse.data,...comments])
+      setComments([commentResponse.data, ...comments]);
       setContent("");
     } catch (error) {
       console.log(error);
     }
+  };
+
+  const handleEdit = async (comment, content) => {
+    setComments(
+      comments.map((c) => (c._id === comment._id ? { ...c, content } : c))
+    );
+  };
+  const handleDelete = async (comment) => {
+    setComments(comments.filter((c) => c._id !== comment._id));
   };
 
   return (
@@ -79,10 +88,8 @@ export default function CommentSection({ postId }) {
             className="mt-3 w-full border-[1px] rounded-md p-3 border-violet-700  "
           >
             <textarea
-            value={content}
+              value={content}
               onChange={commentChangeHandler}
-              name=""
-              id=""
               maxLength="200"
               placeholder="Add a comment...."
               className="w-full rounded-md bg-gray-300 placeholder:text-slate-700 focus:outline-none focus:border-[3px] border-sky-400   text-black sm:text-[15px] text-[13px] sm:placeholder:text-[15px] placeholder:text-[13px] p-2"
@@ -100,10 +107,19 @@ export default function CommentSection({ postId }) {
               </button>
             </div>
           </form>
-          <p className="mt-5 mb-7 sm:text-[15px] text-[13px]"> Total Comments <span className="border  px-2   ">{comments?.length}</span> </p>
-          {comments?.map((comment)=>(<SingleComment key={comment._id} comment={comment}/>)
-            
-          )}
+          <p className="mt-5 mb-7 sm:text-[15px] text-[13px]">
+            {" "}
+            Total Comments{" "}
+            <span className="border  px-2   ">{comments?.length}</span>{" "}
+          </p>
+          {comments?.map((comment) => (
+            <SingleComment
+              key={comment._id}
+              comment={comment}
+              onEdit={handleEdit}
+              onDelete={handleDelete}
+            />
+          ))}
         </div>
       )}
     </div>

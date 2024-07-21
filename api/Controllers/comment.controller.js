@@ -41,7 +41,7 @@ export const getComments = async (req, res) => {
   }
 };
 
-export const likeComment = async (req,res) => {
+export const likeComment = async (req, res) => {
   try {
     const comment = await Comment.findById(req.params.commentId);
     if (!comment) {
@@ -62,6 +62,62 @@ export const likeComment = async (req,res) => {
     res.status(200).json(comment);
   } catch (error) {
     console.log(error);
+    res.status(500).json({
+      success: false,
+      message: "internal server error",
+    });
+  }
+};
+
+export const editComment = async (req, res) => {
+  try {
+    const comment = await Comment.findById(req.params.commentId);
+    if (!comment) {
+      return res.status(404).json({
+        success: false,
+        message: "comment not found",
+      });
+    }
+
+    if (comment.userId.toString() !== req.user.id.toString()) {
+      return res.status(401).json({
+        success: false,
+        message: "you are not allowed to edit this comment",
+      });
+    }
+
+    comment.content = req.body.content;
+    await comment.save();
+    res.status(200).json(comment);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({
+      success: false,
+      message: "internal server error",
+    });
+  }
+};
+
+export const deleteComment = async (req, res) => {
+  try {
+    const comment = await Comment.findById(req.params.commentId);
+    if (!comment) {
+      return res.status(404).json({
+        success: false,
+        message: "comment not found",
+      });
+    }
+    if (comment.userId.toString() !== req.user.id.toString()) {
+      return res.status(401).json({
+        success: false,
+        message: "you are not allowed to edit this comment",
+      });
+    }
+    const deletedComment = await Comment.findByIdAndDelete(
+      req.params.commentId
+    );
+    res.status(200).json(deletedComment);
+  } catch (error) {
     res.status(500).json({
       success: false,
       message: "internal server error",
