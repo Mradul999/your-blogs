@@ -27,43 +27,37 @@ export default function PostPage() {
   }, [postSlug]);
 
   return (
-    
-      <div className=" min-h-screen flex justify-center overflow-x-hidden   my-6">
-        {loading && (
-          <span className="loader mt-[15rem] w-[50px] h-[50px]"></span>
-        )}
-        {post && (
-          <div className="flex flex-col gap-3 max-w-[1000px] w-full px-2    ">
-            <h1 className="sm:text-4xltext-2xl font-medium">
-              {post.title}
-            </h1>
-            <div className="flex flex-row justify-between  items-center">
-              <Link to={`/search?category=${post.category}`}>
-                <p className="bg-violet-700 hover:cursor-pointer hover:scale-105 transition-all rounded-full px-2 py-1">
-                  {post.category}
-                </p>
-              </Link>
-
-              <p className="font-medium sm:text-[1rem] text-[0.8rem]">
-                <span className="">Created on </span>{" "}
-                {new Date(post.createdAt).toLocaleDateString()}
+    <div className=" min-h-screen flex justify-center   overflow-x-hidden   my-6">
+      {loading && <span className="loader mt-[15rem] w-[50px] h-[50px]"></span>}
+      {post && (
+        <div className="flex flex-col gap-3 max-w-[1000px] w-full px-2    ">
+          <h1 className="sm:text-4xltext-2xl font-medium">{post.title}</h1>
+          <div className="flex flex-row justify-between  items-center">
+            <Link to={`/search?category=${post.category}`}>
+              <p className="bg-violet-700 hover:cursor-pointer hover:scale-105 transition-all rounded-full px-2 py-1">
+                {post.category}
               </p>
-            </div>
-            <img
-              src={post.image}
-              alt="post image"
-              className="w-full  rounded-md  "
-            />
-            <div
-              className="post-content    "
-              dangerouslySetInnerHTML={{
-                __html: post.content,
-              }}
-            />
-            <CommentSection postId={post._id} />
+            </Link>
+
+            <p className="font-medium sm:text-[1rem] text-[0.8rem]">
+              <span className="">Created on </span>{" "}
+              {new Date(post.createdAt).toLocaleDateString()}
+            </p>
           </div>
-        )}
-      </div>
-   
+          <img
+            src={post.image}
+            alt="post image"
+            className="w-full  rounded-md  "
+          />
+          <div
+            className="post-content    "
+            dangerouslySetInnerHTML={{
+              __html: post.content,
+            }}
+          />
+          <CommentSection postId={post._id} />
+        </div>
+      )}
+    </div>
   );
 }

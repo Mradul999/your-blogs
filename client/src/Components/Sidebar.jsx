@@ -15,8 +15,11 @@ import { AiFillDashboard } from "react-icons/ai";
 export default function Sidebar() {
   const location = useLocation();
   const [tab, setTab] = useState("");
-  const [activeTab, setActiveTab] = useState("profile");
+
   const dispatch = useDispatch();
+
+ 
+ 
 
   const { currentUser } = useSelector((state) => state.user);
 
@@ -40,19 +43,17 @@ export default function Sidebar() {
     }
   };
 
-  const handleTabClick = (currenttab) => {
-    setActiveTab(currenttab);
-  };
+
 
   return (
-    <div className="md:w-[230px] md:min-h-screen     flex flex-col   sm:gap-3 my-[0.1rem]    p-3 rounded-r-md bg-slate-700  ">
+    <div className="md:w-[230px] md:min-h-screen     flex flex-col     sm:gap-1 my-[0.1rem]    p-3 rounded-r-md bg-slate-700  ">
       <Link to="/dashboard?tab=dashboard">
         {" "}
         {currentUser?.data.isAdmin && (
           <button
-            onClick={() => handleTabClick("dashboard")}
+            onClick={() => setTab("dashboard")}
             className={`w-full py-3 transition-all flex  gap-2 items-center rounded-lg text-[1rem] text-start px-3 font-medium ${
-              activeTab === "dashboard" ? "bg-slate-600" : "bg-transparent"
+              tab === "dashboard" ? "bg-slate-600" : "bg-transparent"
             }`}
           >
             <AiFillDashboard  className="text-[20px]" /> Dashboard
@@ -61,9 +62,9 @@ export default function Sidebar() {
       </Link>
       <Link to="/dashboard?tab=profile">
         <button
-          onClick={() => handleTabClick("profile")}
+          onClick={() => setTab("profile")}
           className={`w-full py-3 transition-all flex justify-between items-center rounded-lg text-[1rem] text-start px-3 font-medium ${
-            activeTab === "profile" ? "bg-slate-600" : "bg-transparent"
+            tab === "profile" ? "bg-slate-600" : "bg-transparent"
           }`}
         >
           <div className="flex items-center gap-2"> <FaUser className="text-[20px]" /> Profile</div>
@@ -78,9 +79,9 @@ export default function Sidebar() {
         {" "}
         {currentUser?.data.isAdmin && (
           <button
-            onClick={() => handleTabClick("allposts")}
+            onClick={() => setTab("allposts")}
             className={`w-full py-3 transition-all flex  gap-2 items-center rounded-lg text-[1rem] text-start px-3 font-medium ${
-              activeTab === "allposts" ? "bg-slate-600" : "bg-transparent"
+              tab === "allposts" ? "bg-slate-600" : "bg-transparent"
             }`}
           >
             <IoDocumentTextOutline className="text-[20px]" /> All Posts
@@ -91,9 +92,9 @@ export default function Sidebar() {
         {" "}
         {currentUser?.data.isAdmin && (
           <button
-            onClick={() => handleTabClick("allusers")}
+            onClick={() => setTab("allusers")}
             className={`w-full py-3 transition-all flex  gap-2 items-center rounded-lg text-[1rem] text-start px-3 font-medium ${
-              activeTab === "allusers" ? "bg-slate-600" : "bg-transparent"
+              tab === "allusers" ? "bg-slate-600" : "bg-transparent"
             }`}
           >
             <FaUsers className="text-[20px]" /> Users
@@ -104,9 +105,9 @@ export default function Sidebar() {
         {" "}
         {currentUser?.data.isAdmin && (
           <button
-            onClick={() => handleTabClick("allcomments")}
+            onClick={() => setTab("allcomments")}
             className={`w-full py-3 transition-all flex  gap-2 items-center rounded-lg text-[1rem] text-start px-3 font-medium ${
-              activeTab === "allcomments" ? "bg-slate-600" : "bg-transparent"
+              tab === "allcomments" ? "bg-slate-600" : "bg-transparent"
             }`}
           >
             <FaComments className="text-[20px]" /> Comments

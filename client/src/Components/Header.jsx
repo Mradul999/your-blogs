@@ -59,7 +59,7 @@ export default function Header() {
         <NavLink to="/">
           <h1 className="text-white font-medium text-xl cursor-pointer">
             <span className="bg-gradient-to-br from-purple-600 to-blue-500 px-2 py-1 rounded-lg">
-              Byte
+              dev 
             </span>{" "}
             Blogs
           </h1>
@@ -135,10 +135,10 @@ export default function Header() {
             </NavLink>
           )}
           {dropdown && (
-            <div className="absolute bg-slate-800 rounded-md px-5 py-3   flex flex-col top-16 right-0 ">
+            <div className="absolute z-10 bg-slate-800 rounded-md px-5 py-3   flex flex-col top-16 right-0 ">
               <p>@{currentUser?currentUser.data.username:""}</p>
 
-              <p>{currentUser?currentUser.data.email:""}</p>
+              <p className="">{currentUser?currentUser.data.email:""}</p>
 
               <div className="w-full h-[0.8px] my-1 rounded-full bg-gray-400"></div>
               <p

@@ -79,7 +79,7 @@ export const getPosts = async (req, res) => {
       lastMonthPosts,
     });
   } catch (error) {
-    res.staus(500).json({
+    res.status(500).json({
       success: false,
       message: "internal server error",
     });

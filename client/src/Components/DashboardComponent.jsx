@@ -119,7 +119,7 @@ export default function DashboardComponent() {
                 <th className="py-4 px-6 text-right ">
                   {" "}
                   <Link to="/dashboard?tab=allusers">
-                    <button className="bg-violet-600 p-2 rounded-lg">
+                    <button className="bg-violet-600 p-2 rounded-lg hover:scale-95 transition-all">
                       See All
                     </button>
                   </Link>{" "}
@@ -133,15 +133,15 @@ export default function DashboardComponent() {
             <tbody>
               {users.map((user) => (
                 <tr className="bg-slate-700">
-                  <td className="py-4 px-6 border-b text-left ">
+                  <td className="py-2 px-6 border-b text-left ">
                     {" "}
                     <img
                       src={user.profilePic}
-                      className="h-14 w-14 object-cover rounded-full"
+                      className="h-12 w-12 object-cover rounded-full"
                       alt=""
                     />
                   </td>
-                  <td className="py-4 px-6 border-b text-center">
+                  <td className="py-2 px-6 border-b text-center">
                     {user.username}
                   </td>
                 </tr>
@@ -157,7 +157,7 @@ export default function DashboardComponent() {
                   {" "}
                   <Link to="/dashboard?tab=allcomments">
                     {" "}
-                    <button className="bg-violet-600 p-2  rounded-lg">
+                    <button className="bg-violet-600 p-2  rounded-lg hover:scale-95 transition-all">
                       See All
                     </button>
                   </Link>{" "}
@@ -197,7 +197,7 @@ export default function DashboardComponent() {
                 <th className="py-4 px-6  text-right ">
                   {" "}
                   <Link to="/dashboard?tab=allposts">
-                    <button className="bg-violet-600 p-2 rounded-lg">
+                    <button className="bg-violet-600 p-2 rounded-lg hover:scale-95 transition-all">
                       See All
                     </button>
                   </Link>{" "}
