@@ -4,19 +4,17 @@ import { FaThumbsUp } from "react-icons/fa";
 import moment from "moment/moment";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { CgDanger } from "react-icons/cg";
 
-export default function SingleComment({ comment,onEdit,onDelete }) {
+
+export default function SingleComment({ comment, onEdit, onDelete }) {
   const [user, setUser] = useState(null);
   const [liked, setLiked] = useState(false);
   const [likesCount, setLikesCount] = useState(comment.likes.length);
   const [showEditArea, setShowEditArea] = useState(false);
   const { currentUser } = useSelector((state) => state.user);
-  const[modal,setmodal]=useState(false);
+  const [modal, setmodal] = useState(false);
 
   const [content, setContent] = useState(comment.content);
-
-
 
   const navigate = useNavigate();
   useEffect(() => {
@@ -57,53 +55,39 @@ export default function SingleComment({ comment,onEdit,onDelete }) {
     getUser();
   }, [comment]);
 
-  const editButtonHandler =  () => {
+  const editButtonHandler = () => {
     setShowEditArea(true);
-
-   
   };
 
-  const cancelButtonHandler=()=>{
+  const cancelButtonHandler = () => {
     setShowEditArea(false);
+  };
 
-  }
-
-
-  const saveEditedCommentHandler=async()=>{
-    if(content.length===0){
-        return;
+  const saveEditedCommentHandler = async () => {
+    if (content.length === 0) {
+      return;
     }
     try {
-        const response=await axios.put(`/api/comment/edit/${comment._id}`,{content})
- 
+      const response = await axios.put(`/api/comment/edit/${comment._id}`, {
+        content,
+      });
 
-        onEdit(comment,response.data.content);
-        setShowEditArea(false);
-
-       
+      onEdit(comment, response.data.content);
+      setShowEditArea(false);
     } catch (error) {
       console.log(error);
     }
-  }
+  };
 
-
-  const deleteHandler=async()=>{
-     try {
-      const response= await axios.delete(`/api/comment/delete/${comment._id}`);
+  const deleteHandler = async () => {
+    try {
+      const response = await axios.delete(`/api/comment/delete/${comment._id}`);
       onDelete(response.data);
       setmodal(false);
-      
-
-      
-     } catch (error) {
+    } catch (error) {
       console.log(error);
-      
-     }
-
-  }
-
-
-
+    }
+  };
 
   return (
     <div className="w-full flex flex-col gap-2 mx-5 mb-6 ">
@@ -113,7 +97,7 @@ export default function SingleComment({ comment,onEdit,onDelete }) {
             <span className="sm:text-xl ">Delete comment</span>
 
             <h1 className="sm:text-[1.1rem] font-normal text-center  ">
-            Delete your comment permanently?
+              Delete your comment permanently?
             </h1>
             <div className="flex flex-row justify-around ">
               <button
@@ -150,13 +134,23 @@ export default function SingleComment({ comment,onEdit,onDelete }) {
             <div>
               <textarea
                 value={content}
-                onChange={(e) => setContent(  e.target.value)}
+                onChange={(e) => setContent(e.target.value)}
                 className="w-[90%] focus:outline-none focus:border-[3px] rounded-lg bg-slate-300 text-black sm:text-[15px] text-[13px] p-2 border-sky-600"
                 rows="2"
               ></textarea>
               <div className="flex gap-2">
-                <button onClick={saveEditedCommentHandler} className="hover:text-violet-800 text-violet-600 transition-all font-medium">Save</button>
-                <button onClick={cancelButtonHandler} className="hover:text-violet-800 transition-all text-violet-600 font-medium">Cancel</button>
+                <button
+                  onClick={saveEditedCommentHandler}
+                  className="hover:text-violet-800 text-violet-600 transition-all font-medium"
+                >
+                  Save
+                </button>
+                <button
+                  onClick={cancelButtonHandler}
+                  className="hover:text-violet-800 transition-all text-violet-600 font-medium"
+                >
+                  Cancel
+                </button>
               </div>
             </div>
           ) : (
@@ -186,7 +180,9 @@ export default function SingleComment({ comment,onEdit,onDelete }) {
 
                 {(currentUser?.data._id.toString() ===
                   comment?.userId.toString() ||
-                  currentUser?.data.isAdmin) && <button onClick={()=>setmodal(true)}>Delete</button>}
+                  currentUser?.data.isAdmin) && (
+                  <button onClick={() => setmodal(true)}>Delete</button>
+                )}
               </div>
             </div>
           )}

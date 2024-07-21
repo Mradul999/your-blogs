@@ -3,19 +3,32 @@ import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import SingleComment from "./SingleComment";
+import SinglePost from "./SinglePost";
 
 export default function CommentSection({ postId }) {
   const { currentUser } = useSelector((state) => state.user);
   const [currentcharacter, setCharacters] = useState(0);
   const [content, setContent] = useState(null);
   const [comments, setComments] = useState([]);
+  const [recentPosts, setRecentPosts] = useState(null);
+  console.log(recentPosts);
   const userId = currentUser.data._id;
 
   const commentChangeHandler = (e) => {
     setCharacters(e.target.value.length);
     setContent(e.target.value);
   };
-  console.log(comments);
+
+  useEffect(() => {
+    try {
+      const fetchRecentPosts = async () => {
+        const response = await axios.get(`/api/post/getposts?limit=3`);
+
+        setRecentPosts(response.data.posts);
+      };
+      fetchRecentPosts();
+    } catch (error) {}
+  }, []);
 
   useEffect(() => {
     const fetchComments = async () => {
@@ -122,6 +135,15 @@ export default function CommentSection({ postId }) {
           ))}
         </div>
       )}
+
+      <div className="w-full flex flex-col gap-3 items-center  ">
+        <h1 className="text-xl">Recent Articles</h1>
+        <div className="flex sm:flex-row flex-col sm:w-full     gap-4">
+          {recentPosts?.map((post) => (
+            <SinglePost key={post._id} post={post} />
+          ))}
+        </div>
+      </div>
     </div>
   );
 }
