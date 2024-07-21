@@ -6,7 +6,10 @@ import { signoutUserSuccess } from "../redux/slices/UserSlice";
 import axios from "axios";
 import { useSelector } from "react-redux";
 import { IoDocumentTextOutline } from "react-icons/io5";
-import { CgProfile } from "react-icons/cg";
+import { FaUser } from "react-icons/fa";
+import { FaUsers } from "react-icons/fa";
+import { FaComments } from "react-icons/fa";
+import { AiFillDashboard } from "react-icons/ai";
 
 
 export default function Sidebar() {
@@ -42,7 +45,20 @@ export default function Sidebar() {
   };
 
   return (
-    <div className="md:w-[230px] md:min-h-screen     flex flex-col  gap-3 my-[0.1rem]    p-3 rounded-r-md bg-slate-700  ">
+    <div className="md:w-[230px] md:min-h-screen     flex flex-col   sm:gap-3 my-[0.1rem]    p-3 rounded-r-md bg-slate-700  ">
+      <Link to="/dashboard?tab=dashboard">
+        {" "}
+        {currentUser?.data.isAdmin && (
+          <button
+            onClick={() => handleTabClick("dashboard")}
+            className={`w-full py-3 transition-all flex  gap-2 items-center rounded-lg text-[1rem] text-start px-3 font-medium ${
+              activeTab === "dashboard" ? "bg-slate-600" : "bg-transparent"
+            }`}
+          >
+            <AiFillDashboard  className="text-[20px]" /> Dashboard
+          </button>
+        )}
+      </Link>
       <Link to="/dashboard?tab=profile">
         <button
           onClick={() => handleTabClick("profile")}
@@ -50,7 +66,7 @@ export default function Sidebar() {
             activeTab === "profile" ? "bg-slate-600" : "bg-transparent"
           }`}
         >
-          <div className="flex items-center gap-2"> <CgProfile className="text-[20px]" /> Profile</div>
+          <div className="flex items-center gap-2"> <FaUser className="text-[20px]" /> Profile</div>
          {" "}
           <span className="bg-slate-800 rounded text-[13px] px-[0.4rem]">
             {currentUser?.data.isAdmin?"Admin":"User"}
@@ -80,7 +96,7 @@ export default function Sidebar() {
               activeTab === "allusers" ? "bg-slate-600" : "bg-transparent"
             }`}
           >
-            <IoDocumentTextOutline className="text-[20px]" /> users
+            <FaUsers className="text-[20px]" /> Users
           </button>
         )}
       </Link>
@@ -93,10 +109,11 @@ export default function Sidebar() {
               activeTab === "allcomments" ? "bg-slate-600" : "bg-transparent"
             }`}
           >
-            <IoDocumentTextOutline className="text-[20px]" /> comments
+            <FaComments className="text-[20px]" /> Comments
           </button>
         )}
       </Link>
+      
       <button
         onClick={signoutHandler}
         className="text-[1rem] rounded-lg py-2    font-medium flex items-center px-3  gap-2  hover:font-semibold hover:scale-95 transition-all"

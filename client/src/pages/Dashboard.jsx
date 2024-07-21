@@ -6,6 +6,7 @@ import Profile from "../Components/Profile";
 import AllPosts from "../Components/AllPosts";
 import AllUsers from "../Components/AllUsers";
 import AllComments from "../Components/AllComments";
+import DashboardComponent from "../Components/DashboardComponent";
 
 export default function Dashboard() {
   const location = useLocation();
@@ -25,6 +26,7 @@ export default function Dashboard() {
       {tab === "allposts" && <AllPosts />}
       {tab==="allusers" && <AllUsers/>}
       {tab==="allcomments" && <AllComments/>}
+      {tab==="dashboard" && <DashboardComponent/>}
     </div>
   );
 }
