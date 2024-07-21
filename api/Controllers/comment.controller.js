@@ -107,7 +107,7 @@ export const deleteComment = async (req, res) => {
         message: "comment not found",
       });
     }
-    if (comment.userId.toString() !== req.user.id.toString()) {
+    if (comment.userId.toString() !== req.user.id.toString()||!req.user.isAdmin) {
       return res.status(401).json({
         success: false,
         message: "you are not allowed to edit this comment",
@@ -124,3 +124,48 @@ export const deleteComment = async (req, res) => {
     });
   }
 };
+
+
+export const getAllComments=async(req,res)=>{
+  try {
+    const startIndex = parseInt(req.query.startIndex) || 0;
+    const limit = parseInt(req.query.limit) || 9;
+    const sortDirection = req.query.order === "asc" ? 1 : -1;
+
+    const comments = await Comment.find()
+      .sort({ updatedAt: sortDirection })
+      .skip(startIndex)
+      .limit(limit);
+
+    
+
+    const totalComments = await Comment.countDocuments();
+    const now = new Date();
+    const oneMonthAgo = new Date(
+      now.getFullYear(),
+      now.getMonth() - 1,
+      now.getDate()
+    );
+
+    const lastMonthComments = await Comment.countDocuments({
+      createdAt: { $gte: oneMonthAgo },
+    });
+
+
+
+    res.status(200).json({
+      comments: comments,
+      totalComments,
+      lastMonthComments,
+    });
+  } catch (error) {
+    console.error("Error fetching comments:", error);
+    res.status(500).json({
+      success: false,
+      message: "Internal server error",
+    });
+  }
+
+
+
+}

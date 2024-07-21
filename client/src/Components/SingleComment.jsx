@@ -175,13 +175,13 @@ export default function SingleComment({ comment, onEdit, onDelete }) {
                 {(currentUser?.data._id.toString() ===
                   comment?.userId.toString() ||
                   currentUser?.data.isAdmin) && (
-                  <button onClick={editButtonHandler}>Edit</button>
+                  <button className=" hover:text-sky-600 transition-all" onClick={editButtonHandler}>Edit</button>
                 )}
 
                 {(currentUser?.data._id.toString() ===
                   comment?.userId.toString() ||
                   currentUser?.data.isAdmin) && (
-                  <button onClick={() => setmodal(true)}>Delete</button>
+                  <button className=" hover:text-red-600 transition-all" onClick={() => setmodal(true)}>Delete</button>
                 )}
               </div>
             </div>

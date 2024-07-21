@@ -5,6 +5,7 @@ import Sidebar from "../Components/Sidebar";
 import Profile from "../Components/Profile";
 import AllPosts from "../Components/AllPosts";
 import AllUsers from "../Components/AllUsers";
+import AllComments from "../Components/AllComments";
 
 export default function Dashboard() {
   const location = useLocation();
@@ -23,6 +24,7 @@ export default function Dashboard() {
       {tab === "profile" && <Profile />}
       {tab === "allposts" && <AllPosts />}
       {tab==="allusers" && <AllUsers/>}
+      {tab==="allcomments" && <AllComments/>}
     </div>
   );
 }
