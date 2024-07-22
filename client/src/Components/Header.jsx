@@ -184,7 +184,7 @@ export default function Header() {
       </div>
       {visible && (
         <div className="sm:hidden bg-gray-200 ">
-          <ul className="flex flex-col gap-1">
+          <ul className="flex flex-col gap-1 ml-1">
             <NavLink to="/" onClick={() => handleLinkClick("home")}>
               <li
                 className={
