@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { Editor } from "@tinymce/tinymce-react";
+
+import ReactQuill from "react-quill";
+import "react-quill/dist/quill.snow.css";
 import app from "../firebase.js";
 import {
   getStorage,
@@ -18,7 +20,7 @@ export default function CreatePost() {
   const [publishLoading, setPublishLoading] = useState(false);
   const [publishError, setPublishError] = useState(null);
   const [successMessage, setsuccessMessage] = useState(null);
-  const [content, setContent] = useState("");
+
   const [formData, setFormData] = useState({});
   const navigate = useNavigate();
 
@@ -62,10 +64,10 @@ export default function CreatePost() {
       setPublishLoading(true);
       setsuccessMessage(null);
       setPublishError(null);
-      const publishResponse = await axios.post("/api/post/createpost", {
-        ...formData,
-        content,
-      });
+      const publishResponse = await axios.post(
+        "/api/post/createpost",
+        formData
+      );
       console.log("publish response=>", publishResponse);
       setPublishLoading(false);
       setsuccessMessage("Post created successfully");
@@ -103,7 +105,7 @@ export default function CreatePost() {
             className="cursor-pointer focus:outline-none rounded-lg py-1 pl-2 text-slate-700 bg-slate-200"
             id="category"
           >
-            <option value="">Select Category</option>
+            <option value="uncategorized">Select Category</option>
             <option value="JavaScript">JavaScript</option>
             <option value="React.js">React.js</option>
             <option value="Next.js">Next.js</option>
@@ -146,25 +148,13 @@ export default function CreatePost() {
               className="object-contain w-full h-72"
             />
           )}
-          <Editor
-            apiKey="ek5sl0uwdup19orkl9hdqukdjl3dxyq2sx5lbxczzebbbdnc"
-            initialValue={content}
-            init={{
-              height: 500,
-              menubar: false,
-              plugins: [
-                "advlist autolink lists link image charmap print preview anchor",
-                "searchreplace visualblocks code fullscreen",
-                "insertdatetime media table paste code help wordcount",
-              ],
-              toolbar:
-                "undo redo | formatselect | bold italic backcolor | \
-                        alignleft aligncenter alignright alignjustify | \
-                        bullist numlist outdent indent | removeformat | help | code",
-              content_style:
-                "body { font-family:Helvetica,Arial,sans-serif; font-size:14px }",
+          <ReactQuill
+            onChange={(value) => {
+              setFormData({ ...formData, content: value });
             }}
-            onEditorChange={(content, editor) => setContent(content)}
+            theme="snow"
+            placeholder="Write your post here..."
+            className="w-full h-72 bg-white mb-[6rem] sm:mb-12 "
           />
           {publishError && (
             <p className="text-[14px] sm:text-[18px] text-center bg-red-500 rounded-lg py-2">

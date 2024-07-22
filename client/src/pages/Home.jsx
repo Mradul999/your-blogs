@@ -34,20 +34,28 @@ export default function Home() {
           development ,software engineering and programming languages
         </p>
 
-        <p className=" text-xl
-        text-center">Recent Posts</p>
+        <p
+          className=" text-xl
+        text-center"
+        >
+          Recent Posts
+        </p>
 
         {loading ? (
           <span className=" mx-auto mt-20 w-16 h-16 loader"></span>
         ) : (
-          <div className="grid grid-row-2 sm:grid-rows-3  grid-cols-2 sm:grid-cols-3 gap-2 sm:gap-6">
+          <div className="grid grid-row-2 sm:grid-rows-3  grid-cols-2 sm:grid-cols-3 gap-2 sm:gap-4">
             {recentPosts
-              ? recentPosts.map((post) => <SinglePost key={post._id} post={post} />)
+              ? recentPosts.map((post) => (
+                  <SinglePost key={post._id} post={post} />
+                ))
               : "no recent posts"}
           </div>
         )}
-           <Link to=""></Link>
-        <button className="text-sky-600 font-medium">Show all articles</button>
+
+        <button className="text-sky-600 font-medium ">
+          <Link to="/search">View all articles</Link>
+        </button>
       </div>
     </div>
   );
