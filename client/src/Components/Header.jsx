@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { FaMoon } from "react-icons/fa6";
-import { NavLink } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import { CiSearch } from "react-icons/ci";
 import { RxHamburgerMenu } from "react-icons/rx";
 import { useDispatch, useSelector } from "react-redux";
@@ -94,10 +94,12 @@ export default function Header() {
               onChange={(e) => setSearchTerm(e.target.value)}
               value={searchTerm}
               placeholder="Search"
-              className="bg-slate-500 hidden sm:block rounded-lg py-3 focus:outline-none pl-2 placeholder:text-[13px] placeholder:text-white    "
+              className="bg-slate-500 sm:block hidden rounded-lg py-3 focus:outline-none pl-2 placeholder:text-[13px] placeholder:text-white    "
               type="text"
             />
-            <CiSearch className="absolute right-2 hidden sm:block text-2xl cursor-pointer" />
+            
+              <CiSearch className="absolute right-2 hidden sm:block text-2xl cursor-pointer" />
+            
           </form>
         </div>
 
@@ -131,18 +133,8 @@ export default function Header() {
           </NavLink>
         </ul>
         <div className="sm:gap-6 gap-3 flex items-center relative">
-          <CiSearch className="text-2xl cursor-pointer sm:hidden block flex-none" />
-          {/* {theme === "light" ? (
-            <FaMoon
-              onClick={() => dispatch(toggleTheme())}
-              className="text-2xl cursor-pointer"
-            />
-          ) : (
-            <FaRegSun
-              onClick={() => dispatch(toggleTheme())}
-              className="text-2xl cursor-pointer"
-            />
-          )} */}
+          <Link to="/search"><CiSearch className="text-2xl cursor-pointer sm:hidden block flex-none" /></Link>
+          
 
           {currentUser ? (
             <img
