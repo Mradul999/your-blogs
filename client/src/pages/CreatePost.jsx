@@ -119,7 +119,7 @@ export default function CreatePost() {
             id="category"
           >
             <option value="uncategorized">Select Category</option>
-            <option value="JavaScript">JavaScript</option>
+            <option value="Javascript">Javascript</option>
             <option value="React.js">React.js</option>
             <option value="Next.js">Next.js</option>
           </select>

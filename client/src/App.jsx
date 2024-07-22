@@ -23,14 +23,13 @@ export default function App() {
   return (
     <div>
       <BrowserRouter>
-        <ScrollToTop />
-
         <Header />
+        <ScrollToTop />
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/about" element={<About />} />
           <Route path="/contactus" element={<Contact />} />
-        
+
           <Route path="search" element={<Search />} />
           <Route path="/signup" element={<SignUp />} />
           <Route path="/signin" element={<Signin />} />

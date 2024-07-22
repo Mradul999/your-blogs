@@ -118,7 +118,7 @@ export default function Search() {
             <option value="uncategorized">uncategorized</option>
             <option value="React.js">React.js</option>
             <option value="Next.js">Next.js</option>
-            <option value="javascript">Javascript</option>
+            <option value="JavaScript">Javascript</option>
           </select>
         </div>
         <button
