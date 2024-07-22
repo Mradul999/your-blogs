@@ -10,16 +10,23 @@ import commentroute from "./Routes/comment.js";
 import suggestionroute from "./Routes/suggestion.js";
 import cookieParser from "cookie-parser";
 
+const __dirname = path.resolve();
+
 dotenv.config();
 const app = express();
-// const __dirname = path.resolve();
-// app.use(express.static(path.join(__dirname, "/client/dist")));
-// app.get("*", (req, res) => {
-//   res.sendFile(path.join(__dirname, "client", "dist", "index.html"));
-// });
-
 app.use(express.json());
 app.use(cookieParser());
+
+app.use("/api/auth", authRoute);
+app.use("/api/user", userRoute);
+app.use("/api/post", postRoute);
+app.use("/api/comment", commentroute);
+app.use("/api/suggestion", suggestionroute);
+
+app.use(express.static(path.join(__dirname, "/client/dist")));
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, "client", "dist", "index.html"));
+});
 
 mongoose
   .connect(process.env.MONGODB_URL)
@@ -33,9 +40,3 @@ mongoose
 app.listen(process.env.PORT, () => {
   console.log("Server is runnin on port 3000");
 });
-
-app.use("/api/auth", authRoute);
-app.use("/api/user", userRoute);
-app.use("/api/post", postRoute);
-app.use("/api/comment", commentroute);
-app.use("/api/suggestion", suggestionroute);
