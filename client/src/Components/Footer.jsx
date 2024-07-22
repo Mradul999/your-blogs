@@ -49,9 +49,7 @@ export default function Footer() {
             <a className="cursor-pointer hover:text-purple-800 transition-all">
               Privacy Policy
             </a>
-            
           </div>
-          <span className="text-[12px] text-end text-sky-600">By Mradul</span>
         </div>
       </div>
     </div>

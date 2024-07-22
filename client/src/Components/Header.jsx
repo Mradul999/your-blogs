@@ -81,7 +81,7 @@ export default function Header() {
           <div onClick={() => handleLinkClick("home")}>
             <h1 className="text-white font-medium text-xl cursor-pointer">
               <span className="bg-gradient-to-br from-purple-600 to-blue-500 px-2 py-1 rounded-lg">
-                dev
+                Next
               </span>{" "}
               Blogs
             </h1>
