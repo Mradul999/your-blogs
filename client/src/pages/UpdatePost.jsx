@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
-import { useNavigate,useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 import app from "../firebase.js";
 import { useState } from "react";
@@ -24,32 +24,39 @@ export default function UpdatePost() {
   const [successMessage, setsuccessMessage] = useState(null);
   const navigate = useNavigate();
   const [formData, setFormData] = useState({});
-  console.log("data of the form=>",formData);
-  const {postId}=useParams();
+  console.log("data of the form=>", formData);
+  const { postId } = useParams();
 
-  const {currentUser}=useSelector((state)=>state.user);
+  const { currentUser } = useSelector((state) => state.user);
 
-
-  useEffect(()=>{
+  useEffect(() => {
     try {
-        const getSinglePost=async()=>{
-            const postResponse=await axios.get(`/api/post/getposts?postId=${postId}`);
-            // console.log("post response=>",postResponse)
-            setFormData(postResponse.data.posts[0]);
-           
-
-        }
-        getSinglePost();
-        
-        
+      const getSinglePost = async () => {
+        const postResponse = await axios.get(
+          `/api/post/getposts?postId=${postId}`
+        );
+        // console.log("post response=>",postResponse)
+        setFormData(postResponse.data.posts[0]);
+      };
+      getSinglePost();
     } catch (error) {
-        console.log(error);
-        
+      console.log(error);
     }
+  }, [postId]);
 
-
-
-  },[postId])
+  const modules = {
+    toolbar: [
+      [{ header: [1, 2, 3, 4, 5, 6, false] }],
+      ["bold", "italic", "underline", "strike"],
+      [{ color: [] }, { background: [] }], // dropdown with defaults from theme
+      [{ font: [] }],
+      [{ align: [] }],
+      [{ list: "ordered" }, { list: "bullet" }],
+      ["link", "image", "video"], // adding video
+      ["blockquote", "code-block"], // adding blockquote and code-block
+      ["clean"], // remove formatting button
+    ],
+  };
 
   const uploadImageHandler = async () => {
     if (!imageFile) {
@@ -95,11 +102,10 @@ export default function UpdatePost() {
         `/api/post/update/${postId}/${currentUser.data._id}`,
         formData
       );
-      console.log("update response=>",updateResponse);
+      console.log("update response=>", updateResponse);
       setUpdateLoading(false);
       setsuccessMessage("Post updated successfully");
-      navigate(`/post/${updateResponse.data.slug}`)
-
+      navigate(`/post/${updateResponse.data.slug}`);
     } catch (error) {
       setUpdateLoading(false);
       if (error.response) {
@@ -122,7 +128,7 @@ export default function UpdatePost() {
         <h1 className="text-center md:text-2xl text-xl">Update Post</h1>
         <form onSubmit={updateHandler} className="flex flex-col gap-3">
           <input
-          value={formData.title}
+            value={formData.title}
             onChange={changeHandler}
             id="title"
             placeholder="Title"
@@ -130,7 +136,7 @@ export default function UpdatePost() {
             type="text"
           />
           <select
-          value={formData.category}
+            value={formData.category}
             onChange={changeHandler}
             className="cursor-pointer focus:outline-none rounded-lg py-1 pl-2  text-slate-700 bg-slate-200"
             name=""
@@ -181,11 +187,12 @@ export default function UpdatePost() {
           )}
           {}
           <ReactQuill
-          value={formData.content}
+            value={formData.content}
             onChange={(value) => {
               setFormData({ ...formData, content: value });
             }}
             theme="snow"
+            modules={modules}
             placeholder="Write your post here..."
             className="w-full h-72 bg-white mb-[6rem] sm:mb-12 "
           />

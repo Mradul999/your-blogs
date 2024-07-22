@@ -53,6 +53,19 @@ export default function CreatePost() {
       }
     );
   };
+  const modules = {
+    toolbar: [
+      [{ header: [1, 2, 3, 4, 5, 6, false] }],
+      ["bold", "italic", "underline", "strike"],
+      [{ color: [] }, { background: [] }], // dropdown with defaults from theme
+      [{ font: [] }],
+      [{ align: [] }],
+      [{ list: "ordered" }, { list: "bullet" }],
+      ["link", "image", "video"], // adding video
+      ["blockquote", "code-block"], // adding blockquote and code-block
+      ["clean"], // remove formatting button
+    ],
+  };
 
   const changeHandler = async (e) => {
     setFormData({ ...formData, [e.target.id]: e.target.value });
@@ -152,6 +165,7 @@ export default function CreatePost() {
             onChange={(value) => {
               setFormData({ ...formData, content: value });
             }}
+            modules={modules}
             theme="snow"
             placeholder="Write your post here..."
             className="w-full h-72 bg-white mb-[6rem] sm:mb-12 "

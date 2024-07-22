@@ -78,7 +78,7 @@ export default function Header() {
     <div className="flex flex-col text-white ">
       <div className="flex justify-between sm:px-4 px-1 bg-slate-700 shadow-sm shadow-slate-300 py-2 items-center text-gray-200">
         <NavLink to="/">
-          <div onClick={()=>handleLinkClick("home")}>
+          <div onClick={() => handleLinkClick("home")}>
             <h1 className="text-white font-medium text-xl cursor-pointer">
               <span className="bg-gradient-to-br from-purple-600 to-blue-500 px-2 py-1 rounded-lg">
                 dev
@@ -120,13 +120,13 @@ export default function Header() {
               About
             </li>
           </NavLink>
-          <NavLink to="/projects" onClick={() => handleLinkClick("projects")}>
+          <NavLink to="/contactus" onClick={() => handleLinkClick("projects")}>
             <li
               className={
                 activeLink === "projects" ? "text-purple-600" : "text-white"
               }
             >
-              Projects
+              Contact Us
             </li>
           </NavLink>
         </ul>

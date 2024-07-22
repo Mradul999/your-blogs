@@ -6,6 +6,7 @@ import authRoute from "./Routes/auth.js";
 import userRoute from "./Routes/user.js";
 import postRoute from "./Routes/post.js";
 import commentroute from "./Routes/comment.js"
+import suggestionroute from "./Routes/suggestion.js"
 import cookieParser from "cookie-parser";
 
 dotenv.config();
@@ -31,3 +32,5 @@ app.use("/api/auth", authRoute);
 app.use("/api/user", userRoute);
 app.use("/api/post", postRoute);
 app.use("/api/comment",commentroute);
+app.use("/api/suggestion",suggestionroute)
+
