@@ -97,9 +97,8 @@ export default function Header() {
               className="bg-slate-500 sm:block hidden rounded-lg py-3 focus:outline-none pl-2 placeholder:text-[13px] placeholder:text-white    "
               type="text"
             />
-            
-              <CiSearch className="absolute right-2 hidden sm:block text-2xl cursor-pointer" />
-            
+
+            <CiSearch className="absolute right-2 hidden sm:block text-2xl cursor-pointer" />
           </form>
         </div>
 
@@ -133,8 +132,9 @@ export default function Header() {
           </NavLink>
         </ul>
         <div className="sm:gap-6 gap-3 flex items-center relative">
-          <Link to="/search"><CiSearch className="text-2xl cursor-pointer sm:hidden block flex-none" /></Link>
-          
+          <Link to="/search">
+            <CiSearch className="text-2xl cursor-pointer sm:hidden block flex-none" />
+          </Link>
 
           {currentUser ? (
             <img
