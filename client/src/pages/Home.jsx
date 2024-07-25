@@ -27,7 +27,7 @@ export default function Home() {
     <div className="min-h-screen flex justify-center">
       <div className="max-w-[1000px] flex flex-col gap-6 w-full mx-3 my-16">
         <h1 className=" text-3xl sm:text-4xl font-semibold">
-          Welcome to devBlog
+          Welcome to nextBlogs
         </h1>
         <p>
           Here you'll find variety of articles and tutorials on topics such as

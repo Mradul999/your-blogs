@@ -12,7 +12,7 @@ export default function CommentSection({ postId }) {
   const [comments, setComments] = useState([]);
   const [recentPosts, setRecentPosts] = useState(null);
   console.log(recentPosts);
-  const userId = currentUser.data._id;
+  const userId = currentUser?.data._id;
 
   const commentChangeHandler = (e) => {
     setCharacters(e.target.value.length);
@@ -120,7 +120,10 @@ export default function CommentSection({ postId }) {
               </button>
             </div>
           </form>
-          <p className="mt-5 mb-7 sm:text-[15px] text-[13px]">
+          
+        </div>
+      )}
+      <p className="mt-5 mb-7 sm:text-[15px] text-[13px]">
             {" "}
             Total Comments{" "}
             <span className="border  px-2   ">{comments?.length}</span>{" "}
@@ -133,8 +136,6 @@ export default function CommentSection({ postId }) {
               onDelete={handleDelete}
             />
           ))}
-        </div>
-      )}
 
       <div className="w-full flex flex-col gap-3 items-center  ">
         <h1 className="text-xl">Recent Articles</h1>

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Home from "./pages/Home";
 import SignUp from "./pages/SignUp";
@@ -20,6 +20,12 @@ import ScrollToTop from "./Components/ScrollToTop";
 import Search from "./pages/Search";
 import Contact from "./pages/Contact";
 export default function App() {
+  useEffect(() => {
+    const cookie = document.cookie;
+    if (!cookie) {
+      localStorage.clear();
+    }
+  }, []);
   return (
     <div>
       <BrowserRouter>
