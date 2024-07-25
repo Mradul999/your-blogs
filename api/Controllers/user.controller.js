@@ -138,7 +138,6 @@ export const getUsers = async (req, res) => {
       createdAt: { $gte: oneMonthAgo },
     });
 
-    console.log("Users without password:", usersWithoutPassword);
 
     res.status(200).json({
       users: usersWithoutPassword,

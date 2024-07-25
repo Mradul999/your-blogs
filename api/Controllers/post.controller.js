@@ -146,8 +146,7 @@ export const updatePost = async (req, res) => {
         message: "you are not allowed to update this post",
       });
     }
-    console.log("post id from params=>",req.params.postId);
-    console.log("title from body=>",req.body.title);
+
    
 
 
@@ -159,7 +158,7 @@ export const updatePost = async (req, res) => {
         image: req.body.image,
       },
     },{new:true});
-    console.log("response after update=>",updatePost)
+
 
     res.status(200).json(updatedPost);
   } catch (error) {

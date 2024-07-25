@@ -35,7 +35,7 @@ export default function Signin() {
         email: formData.email,
         password: formData.password,
       });
-      console.log("response of signin=>",response);
+
       dispatch(signInSuccess(response));
       setLoading(false);
 

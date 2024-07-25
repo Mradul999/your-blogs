@@ -24,7 +24,7 @@ export default function UpdatePost() {
   const [successMessage, setsuccessMessage] = useState(null);
   const navigate = useNavigate();
   const [formData, setFormData] = useState({});
-  console.log("data of the form=>", formData);
+
   const { postId } = useParams();
 
   const { currentUser } = useSelector((state) => state.user);
@@ -35,7 +35,7 @@ export default function UpdatePost() {
         const postResponse = await axios.get(
           `/api/post/getposts?postId=${postId}`
         );
-        // console.log("post response=>",postResponse)
+
         setFormData(postResponse.data.posts[0]);
       };
       getSinglePost();
@@ -102,7 +102,7 @@ export default function UpdatePost() {
         `/api/post/update/${postId}/${currentUser.data._id}`,
         formData
       );
-      console.log("update response=>", updateResponse);
+
       setUpdateLoading(false);
       setsuccessMessage("Post updated successfully");
       navigate(`/post/${updateResponse.data.slug}`);

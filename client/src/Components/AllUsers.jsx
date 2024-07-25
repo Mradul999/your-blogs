@@ -8,7 +8,7 @@ import { FiCheck } from "react-icons/fi";
 export default function AllUsers() {
     const { currentUser } = useSelector((state) => state.user);
   const [users, setUsers] = useState([]);
-  console.log("users=>",users);
+
 
 
   useEffect(() => {

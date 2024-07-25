@@ -25,7 +25,7 @@ export default function Oauth() {
         photoURL,
         email,
       });
-      console.log("response of oauth=>", response);
+
       if (response.status === 200) {
         dispath(signInSuccess(response));
         navigate("/");

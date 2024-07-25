@@ -107,7 +107,7 @@ export const deleteComment = async (req, res) => {
         message: "comment not found",
       });
     }
-    console.log(req.user.isAdmin);
+
     if (comment.userId.toString() !== req.user.id.toString()&&!req.user.isAdmin) {
       return res.status(401).json({
         success: false,

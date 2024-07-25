@@ -9,10 +9,10 @@ export const sendMail=async(email,otp)=>{
 
     try {
         await transporter.sendMail(mailOptions);
-        console.log("Mail sent successfully");
+
         return { success: true, message: "Mail sent successfully" };
       } catch (error) {
-        console.error("Failed to send OTP:", error);
+
         return { success: false, message: "Failed to send OTP" };
       }
 

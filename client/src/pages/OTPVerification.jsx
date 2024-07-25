@@ -40,12 +40,12 @@ export default function OTPVerification() {
           password,
           profilePic,
         });
-        console.log("response of signup is=>", signupResponse);
+
         dispatch(signInSuccess(signupResponse));
 
         navigate("/signin");
       }
-      console.log("error status", response.status);
+
       if (response.status === 409) {
         setLoading(false);
         setErrorMessage("Invalid OTP");

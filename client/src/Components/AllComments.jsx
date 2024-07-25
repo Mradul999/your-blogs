@@ -9,7 +9,7 @@ import { getComments } from '../../../api/Controllers/comment.controller';
 export default function AllUsers() {
     const { currentUser } = useSelector((state) => state.user);
   const [comments, setComments] = useState([]);
-  console.log("comments=>",setComments);
+
 
 
   useEffect(() => {

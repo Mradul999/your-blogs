@@ -11,10 +11,10 @@ export default function Search() {
     sort: "desc",
     category: "uncategorized",
   });
-  console.log(sideBarData);
+
 
   const [posts, setPosts] = useState([]);
-  console.log(posts);
+
 
   const [loading, setLoading] = useState(false);
 

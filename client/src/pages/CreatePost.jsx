@@ -81,7 +81,7 @@ export default function CreatePost() {
         "/api/post/createpost",
         formData
       );
-      console.log("publish response=>", publishResponse);
+ 
       setPublishLoading(false);
       setsuccessMessage("Post created successfully");
       navigate(`/post/${publishResponse.data.slug}`);
