@@ -18,7 +18,7 @@ export default function Header() {
   const [dropdown, setDropdown] = useState(false);
 
   const [searchTerm, setSearchTerm] = useState("");
-  console.log(searchTerm);
+
   const location = useLocation();
 
   const { currentUser } = useSelector((state) => state.user);
