@@ -3,16 +3,17 @@ import userReducer from "./slices/UserSlice.js";
 import themeReducer from "./slices/themeSlice.js";
 
 import storage from "redux-persist/lib/storage";
+import storageSession from "redux-persist/lib/storage/session";
 import { persistReducer, persistStore } from "redux-persist";
 
 const rootReducer = combineReducers({
   user: userReducer,
-  theme:themeReducer,
+  theme: themeReducer,
 });
 
 const persistConfig = {
   key: "root",
-  storage,
+  storage: storageSession,
   version: 1,
 };
 

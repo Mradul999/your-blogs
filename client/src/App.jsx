@@ -20,12 +20,6 @@ import ScrollToTop from "./Components/ScrollToTop";
 import Search from "./pages/Search";
 import Contact from "./pages/Contact";
 export default function App() {
-  useEffect(() => {
-    const cookie = document.cookie;
-    if (!cookie) {
-      localStorage.clear();
-    }
-  }, []);
   return (
     <div>
       <BrowserRouter>
